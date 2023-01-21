@@ -9,8 +9,6 @@ from helper_funcs.styles import read_html
 
 def show_dashboard():
 
-    st.write("###")
-
     st.subheader("My Impact")
     btncol1, btncol2 = st.columns([1, 2])
     with btncol1:
