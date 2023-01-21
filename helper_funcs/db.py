@@ -31,6 +31,7 @@ patients = deta.Base("patients")
 
 
 def get_all_user_details():
+    users = deta.Base("users")
     usernames = {}
     all_users_obj = users.fetch()  # Get All Users (Rows)
     all_users = all_users_obj.items
@@ -42,6 +43,7 @@ def get_all_user_details():
 
 
 def create_user(usernames):
+    users = deta.Base("users")
     previous_users = users.fetch().items
     previous_usernames = [x["username"] for x in previous_users]
 
@@ -57,12 +59,14 @@ def create_user(usernames):
 
 
 def update_user_profile(details, username):
+    users = deta.Base("users")
     user_key = users.fetch({"username": username}).items[0]["key"]
     users.update({"profile": details}, key=user_key)
     
 
 # Redirect to Complete Profile when User is Logged in for the First Time
 def check_profile(username):
+    users = deta.Base("users")
     user_profile = users.fetch({"username": username}).items[0]["profile"]
     if bool(user_profile):
         st.session_state["profile_header"] = "Profile Details"
