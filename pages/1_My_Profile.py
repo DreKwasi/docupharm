@@ -16,13 +16,12 @@ st.set_page_config(
 load_css_file("styles/main.css")
 
 
-with st.sidebar.empty():
-    st.session_state["authenticator"].logout("Logout", "main")
-
-
 if "authentication_status" in st.session_state or "username" in st.session_state:
 
     if st.session_state["authentication_status"]:
+        with st.sidebar.empty():
+            st.session_state["authenticator"].logout("Logout", "main")
+
         if st.button(
             "🏡 Go Home",
             disabled=False

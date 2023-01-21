@@ -8,7 +8,7 @@ from helper_funcs import db
 st.set_page_config(
     page_title="Form",
     page_icon="📋",
-    initial_sidebar_state="auto",
+    initial_sidebar_state="collapsed",
     layout="centered",
 )
 
