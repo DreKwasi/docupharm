@@ -7,3 +7,4 @@ pass_maker.ipynb
 __pycache__
 /.vscode
 ngrokauth.txt
+secrets
