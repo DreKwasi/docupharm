@@ -98,7 +98,9 @@ def record_intervention():
         #     "intervention_details": intervention_details,
         #     "pharmacist_details": st.session_state["username"],
         # }
+        # st.session_state["intv_key"] = create_intervention(details)
         st.session_state["intv_key"] = ""
+        
         switch_page("my patients")
 
 
