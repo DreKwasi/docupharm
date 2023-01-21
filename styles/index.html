@@ -1,0 +1,28 @@
+<script>
+    const streamlitDoc = window.parent.document;
+    
+    const buttons = Array.from(streamlitDoc.querySelectorAll('.stButton > button'));
+    //console.log(buttons) // find buttons in console tab
+    
+    const left_button = buttons.find(el => el.innerText === 'Add Intervention');
+    const right_button = buttons.find(el => el.innerText === 'Review My Day');
+
+    left_button.style.backgroundColor = "#087bac"
+    right_button.style.backgroundColor = "#49b881"
+    
+    // streamlitDoc.addEventListener('keydown', function(e) {
+    //     switch (e.key) {
+    //         case 'ArrowLeft':
+    //             left_button.click();
+    //             break;
+    //         case 'ArrowRight':
+    //             right_button.click();
+    //             break;
+    //         case 'Enter':
+    //             window.parent.navigator.clipboard.writeText(python_string)
+    //             //window.parent.navigator.clipboard.readText().then((d) => {console.log(d)})
+    //     }
+    // });
+
+
+    </script>

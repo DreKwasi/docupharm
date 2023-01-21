@@ -1,0 +1,7 @@
+streamlit
+streamlit_authenticator
+streamlit_option_menu
+deta
+streamlit-extras
+streamlit-modal
+plotly

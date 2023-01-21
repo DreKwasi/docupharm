@@ -1,0 +1,91 @@
+{
+  "Ineffective medicine": {
+    "reason": [
+      "A medical condition requires combination therapy (synergistic or additive)",
+      "The medicine is not the most effective for the management of the patient",
+      "The medicine is generally not effective/substandard",
+      "The condition is resistant to the medication",
+      "The dosage form is inappropriate"
+    ],
+    "solution": ["Switch Medicine", "Switch Dosage form"]
+  },
+
+  "Drug therapy is not required": {
+    "reason": [
+      "No indication for prescribed drug",
+      "Duplicated therapy (Multiple drugs of similar MoA with no known additional benefits)",
+      "Addiction/Drug is being used for recreational purposes",
+      "Drugs can be avoided without change in outcome",
+      "The non-pharmacological approach will still work"
+    ],
+    "solution": [
+      "Discontinue Medicine",
+      "Triturate dose down",
+      "Refer to specialist/ Counselling (Checkbox)"
+    ]
+  },
+  "The patient needs additional therapy": {
+    "reason": ["Untreated indications", "Prophylactic therapy"],
+    "solution": [
+      "Add identified indication and new therapy",
+      "Add prophylactic therapy"
+    ]
+  },
+  "Dosage too low (Underdose)": {
+    "reason": [
+      "The dose is too low to give the desired outcome",
+      "The dosing frequency (dosage regimen) is too long",
+      "The duration of therapy is too short"
+    ],
+    "solution": ["Adjust Dose/Frequency/Duration"]
+  },
+  "Dosage too high (Overdose)": {
+    "reason": [
+      "The dose is too high for the patient",
+      "The dosing frequency is too short",
+      "The regimen was administered or changed too rapidly",
+      "The duration of therapy is too long",
+      "The dose was administered too rapidly"
+    ],
+    "solution": ["Adjust Dose/Frequency/Duration"]
+  },
+  "Safety/ADR issues": {
+    "reason": [
+      "Absolute contraindication is present",
+      "The medication causes an undesirable reaction not related to the dose",
+      "A safer medicine is needed due to patient risk factors",
+      "A medicine interaction causes an undesirable reaction",
+      "A medicine interaction causes a toxic reaction to the medication"
+    ],
+    "solution": [
+      "Discontinue Medicine and Monitor Patient",
+      "Monitor Patient",
+      "Discontinue and Switch Medicine",
+      "Report ADR to FDA/ Counselling"
+    ]
+  },
+  "Adherence issues": {
+    "reason": [
+      "The patient did not understand the advice given",
+      "Non-availability of the medicine",
+      "Medicine worsens the patient's other medical conditions (drug-disease interaction)",
+      "Treatment is complex/cumbersome",
+      "Undesirable side effects",
+      "The dosage form is not appropriate for the patient",
+      "The patient prefers not to take the drug",
+      "The patient forgets to take the medicine",
+      "The medicine is too expensive",
+      "The patient cannot swallow or self-administer the medication properly",
+      "Limited accessibility to the medicine",
+      "Knowledge/Awareness gap on disease condition."
+    ],
+    "solution": [
+      "Counselling",
+      "Find medicine for the patient",
+      "Simplify Treatment (Switch to combination therapy/Switch drug formulation for pharmacokinetic advantage)",
+      "Switch Medicine",
+      "Switch Dosage Form",
+      "Switch to more Affordable Medicine"
+    ]
+  }
+}

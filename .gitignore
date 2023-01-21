@@ -1,0 +1,9 @@
+/.ipynb_checkpoints
+Pharma_Sales_Analysis.ipynb
+pharmanet_pointers.txt
+/py_env
+.streamlit
+pass_maker.ipynb
+__pycache__
+/.vscode
+ngrokauth.txt
