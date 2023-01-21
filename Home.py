@@ -8,7 +8,7 @@ from streamlit_extras.switch_page_button import switch_page
 st.set_page_config(
     page_title="DocuPharm",
     page_icon="🦈",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
     layout="centered",
 )
 
@@ -28,7 +28,6 @@ authenticator = st_auth.Authenticate(
     cookie_expiry_days=cookie["expiry_days"],
 )
 
-st.session_state["authenticator"] = authenticator
 
 placeholder = st.empty()
 
@@ -37,6 +36,9 @@ with placeholder.container():
     selected = option_menu(menu_title="", options=options, orientation="horizontal")
     st.header("Welcome to DocuPharm 🎈🎈🎈")
     st.subheader("The #1 Impact Tracker for Pharmacists 👨‍⚕️👩‍⚕️")
+
+    if "success_message" in st.session_state:
+        st.success(st.session_state["success_message"])
 
 if selected == "Sign In":
 
@@ -52,6 +54,8 @@ if selected == "Sign In":
             authentication_status,
             username,
         )
+
+        st.session_state["authenticator"] = authenticator
 
         with st.sidebar.empty():
             authenticator.logout("Logout", "main")
@@ -79,11 +83,13 @@ if selected == "Sign In":
 
 elif selected == "Sign Up":
     try:
-        if authenticator.register_user("Getting Started 🧾", preauthorization=False):
-            previous_users = list(creds["usernames"].keys())
+        if authenticator.register_user("Get Started 🧾", preauthorization=False):
             db.create_user(
                 usernames=creds["usernames"],
             )
-            st.success("User registered successfully. Please Log In")
+            st.session_state[
+                "success_message"
+            ] = "User registered successfully. Please Log In"
+            switch_page("my profile")
     except Exception as e:
         st.error(e)
