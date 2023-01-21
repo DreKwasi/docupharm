@@ -51,7 +51,7 @@ def create_user(usernames):
         key: value for key, value in usernames.items() if key not in previous_usernames
     }
 
-    first_key = list(new_username.keys())[0]
+    first_key = next(iter(new_username))
     insert_user = new_username[first_key]
     insert_user["username"] = first_key
     insert_user["profile"] = {}
