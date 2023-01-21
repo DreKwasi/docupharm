@@ -9,7 +9,7 @@ from helper_funcs.styles import load_css_file
 st.set_page_config(
     page_title="Form",
     page_icon="📋",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
     layout="centered",
 )
 

@@ -7,7 +7,7 @@ from helper_funcs import patient_func, styles, db
 st.set_page_config(
     page_title="Form",
     page_icon="📋",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
     layout="centered",
 )
 
