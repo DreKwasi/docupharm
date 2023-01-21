@@ -1,15 +1,18 @@
 import streamlit as st
 from .db import read_locations, update_user_profile
 from streamlit_extras.switch_page_button import switch_page
+from streamlit_extras.no_default_selectbox import selectbox
 
 
 
 def show_profile():
+    
+    locs = read_locations()["locs"].tolist()
 
     st.subheader(st.session_state["profile_header"])
     placeholder = st.empty()
     
-    with placeholder.form("User Details"):
+    with placeholder.container():
 
         st.write("**First Name**")
         first_name = st.text_input("First Name", label_visibility="collapsed")
@@ -34,18 +37,19 @@ def show_profile():
             label_visibility="collapsed",
         )
 
-        st.write("**Registration Number**")
-        reg_number = st.text_input(
-            "Registration Number", placeholder="PA/HPA", label_visibility="collapsed"
+        st.write("**Registration Number (PA/HPA)**")
+        reg_number = st.number_input(
+            "Registration Number", value=9999, label_visibility="collapsed",
+            help="Input Number Only"
         )
 
         st.write("**Company**")
         company1 = st.text_input("Company", label_visibility="collapsed")
 
-        st.write("**Location**")
-        location = st.selectbox(
+        st.write("**Location (Town)**")
+        location = selectbox(
             "Location",
-            options=read_locations()["locs"].tolist(),
+            options=locs,
             label_visibility="collapsed",
         )
 
@@ -55,7 +59,7 @@ def show_profile():
             options=["Hospital", "Community Pharmacy"],
             label_visibility="collapsed",
         )
-        submit = st.form_submit_button("Update Profile")
+        submit = st.button("Update Profile")
 
     if submit:
         with st.spinner("Updating Profile"):
