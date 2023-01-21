@@ -2,7 +2,7 @@
 Pharma_Sales_Analysis.ipynb
 pharmanet_pointers.txt
 /py_env
-.streamlit
+.streamlit/secrets.toml
 pass_maker.ipynb
 __pycache__
 /.vscode
