@@ -8,7 +8,7 @@ from streamlit_extras.switch_page_button import switch_page
 st.set_page_config(
     page_title="DocuPharm",
     page_icon="🦈",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="expanded",
     layout="centered",
 )
 
