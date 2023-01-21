@@ -18,12 +18,12 @@ styles.load_css_file("styles/main.css")
 user_creds = db.get_all_user_details()
 cookie = st.secrets["cookie"]
 creds = {"usernames": user_creds}
-# preauth = st.secrets["preauth"]
+preauth = st.secrets["preauth"]
 
 authenticator = st_auth.Authenticate(
     credentials=creds,
     cookie_name=cookie["name"],
-    # preauthorized=preauth['emails'],
+    preauthorized=preauth['emails'],
     key=cookie["key"],
     cookie_expiry_days=cookie["expiry_days"],
 )
