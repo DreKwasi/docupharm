@@ -111,8 +111,6 @@ def view_details():
         gridoptions = gd.build()
         new_df = AgGrid(
             df,
-            fit_columns_on_grid_load=True,
-            columns_auto_size_mode = ColumnsAutoSizeMode.NO_AUTOSIZE,
             height=300,
             gridOptions=gridoptions,
             GridUpdateMode=GridUpdateMode.SELECTION_CHANGED,
