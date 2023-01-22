@@ -5,6 +5,8 @@ import pandas as pd
 import numpy as np
 import streamlit.components.v1 as components
 from helper_funcs.styles import read_html
+from streamlit_extras.metric_cards import style_metric_cards
+
 
 
 def show_dashboard():
@@ -32,6 +34,7 @@ def show_dashboard():
     metric1Col2.metric("**Patients Impacted**", 4, "-90%")
     metric2Col1.metric("**Prescriptions Filled**", 30, "20%")
     metric2Col2.metric("**Revenue Led**", "GHS100", "-80%")
+    style_metric_cards()
 
     st.write("####")
 

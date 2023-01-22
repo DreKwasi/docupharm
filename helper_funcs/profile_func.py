@@ -2,7 +2,7 @@ import streamlit as st
 from .db import read_locations, update_user_profile
 from streamlit_extras.switch_page_button import switch_page
 from streamlit_extras.no_default_selectbox import selectbox
-
+from streamlit_extras import st_keyup
 
 
 def show_profile():
@@ -43,9 +43,9 @@ def show_profile():
             help="Input Number Only"
         )
 
-        st.write("**Company**")
-        company1 = st.text_input("Company", label_visibility="collapsed")
-
+        st.write(f"**Company**")
+        company1 = st.text_input(f"Company", label_visibility="collapsed")
+        
         st.write("**Location (Town)**")
         location = selectbox(
             "Location",

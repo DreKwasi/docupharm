@@ -13,10 +13,16 @@ st.set_page_config(
 
 styles.load_css_file("styles/main.css")
 
+# col1, col2 = st.columns([1, 1])
 
+# with col1:
 if st.button("🏡 Go Home"):
     switch_page("home")
 
+# with col2:
+#     if st.button("Refresh"):
+#         st.experimental_rerun()
+#         st.ex
 
 selected = option_menu(
     menu_title="",
@@ -28,11 +34,11 @@ selected = option_menu(
 if "authentication_status" in st.session_state or "username" in st.session_state:
 
     if st.session_state["authentication_status"]:
-        
+
         if db.check_profile(st.session_state["username"]):
             if selected == "Add Patient Details":
                 patient_func.record_details()
-                
+
             elif selected == "View & Update Patient Details":
                 patient_func.view_details()
         else:
