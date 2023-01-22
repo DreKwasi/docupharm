@@ -115,7 +115,7 @@ def view_details():
             height=300,
             gridOptions=gridoptions,
             GridUpdateMode=GridUpdateMode.SELECTION_CHANGED,
-            theme="alpine",
+            theme="streamlit",
             enable_enterprise_modules=False,
         )
     try:
