@@ -111,10 +111,9 @@ def view_details():
         gridoptions = gd.build()
         new_df = AgGrid(
             df,
-            height=300,
             gridOptions=gridoptions,
             GridUpdateMode=GridUpdateMode.SELECTION_CHANGED,
-            theme="material",
+            theme="streamlit",
             enable_enterprise_modules=False,
         )
     try:
