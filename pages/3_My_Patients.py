@@ -11,22 +11,27 @@ st.set_page_config(
     layout="centered",
 )
 
+st.session_state['refresh'] = 0
+default_index = 0
+if "add_patient" in st.session_state:
+    if st.session_state["add_patient"] == True:
+        default_index = 1
+        st.session_state["add_patient"] = False
+
+
+
+st.experimental_set_query_params(curr_page="my patients")
 styles.load_css_file("styles/main.css")
 
-# col1, col2 = st.columns([1, 1])
-
-# with col1:
-if st.button("🏡 Go Home"):
-    switch_page("home")
-
-# with col2:
-#     if st.button("Refresh"):
-#         st.experimental_rerun()
-#         st.ex
+col1, col2, col3 = st.columns([1, 1, 1])
+with col2:
+    if st.button("🏡 Go Home"):
+        switch_page("home")
+        
 
 selected = option_menu(
     menu_title="",
-    options=["Add Patient Details", "View & Update Patient Details"],
+    options=[ "All Patient Details", "Add Patient Details"],
     orientation="horizontal",
 )
 
@@ -39,7 +44,7 @@ if "authentication_status" in st.session_state or "username" in st.session_state
             if selected == "Add Patient Details":
                 patient_func.record_details()
 
-            elif selected == "View & Update Patient Details":
+            elif selected == "All Patient Details":
                 patient_func.view_details()
         else:
             switch_page("my profile")
