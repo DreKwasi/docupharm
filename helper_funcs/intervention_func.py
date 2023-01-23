@@ -277,7 +277,7 @@ def view_intervention():
                     label_visibility="collapsed",
                 )
 
-                if st.button("Save and Continue"):
+                if st.button("Update Intervention"):
 
                     details = {
                         "recorded_date": date.strftime("%Y-%m-%d"),

@@ -98,7 +98,7 @@ def create_intervention(details):
 
 def update_intervention(details):
     interventions = deta.Base("interventions")
-    intervention_dict = interventions.update(details, key=details['key'])
+    interventions.update(details, key=details['key'])
 
 def create_patient(details):
     patients = deta.Base("patients")
