@@ -4,3 +4,7 @@ backgroundColor="#e8eaed"
 secondaryBackgroundColor="#F0F2F6"
 textColor="#262730"
 font="sans serif"
+
+[server]
+showWarningOnDirectExecution = false
+runOnSave = true
