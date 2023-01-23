@@ -4,8 +4,6 @@ import pandas as pd
 import json
 
 st.cache
-
-
 def read_products():
     df = pd.read_csv("assets/data/products.csv")
 
@@ -13,8 +11,6 @@ def read_products():
 
 
 st.cache
-
-
 def read_locations():
     df = pd.read_csv("assets/data/locations.csv")
 
@@ -22,8 +18,6 @@ def read_locations():
 
 
 st.cache
-
-
 def read_interventions():
     with open("assets/data/interventions.json") as f:
         return json.load(f)
@@ -69,17 +63,24 @@ def update_user_profile(details, username):
     users.update({"profile": details}, key=user_key)
 
 
+def get_profile(username):
+    users = deta.Base("users")
+    user_items = users.fetch({"username": username}).items
+    return user_items[0]['profile']
+
 # Redirect to Complete Profile when User is Logged in for the First Time
 def check_profile(username):
-    users = deta.Base("users")
-    user_profile = users.fetch({"username": username}).items[0]["profile"]
-    if bool(user_profile):
-        st.session_state["profile_header"] = "Profile Details"
-        return True
-    else:
-        st.session_state["profile_header"] = "Complete Your Profile"
+    try:
+        users = deta.Base("users")
+        user_profile = users.fetch({"username": username}).items[0]["profile"]
+        if bool(user_profile):
+            st.session_state["profile_header"] = "Profile Details"
+            return True
+        else:
+            st.session_state["profile_header"] = "Complete Your Profile"
+            return False
+    except Exception:
         return False
-
 
 def create_intervention(details):
     interventions = deta.Base("interventions")
@@ -90,7 +91,7 @@ def create_intervention(details):
 def create_patient(details):
     patients = deta.Base("patients")
     num_patients = patients.fetch({"pharmacist": "drekwasi"}).count
-    details["patient_id"] = f"Patient {num_patients + 1}"
+    details["patient_id"] = {num_patients + 1}
     patients.insert(details)
 
 

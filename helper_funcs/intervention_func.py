@@ -3,44 +3,43 @@ import base64
 from streamlit_extras.switch_page_button import switch_page
 import datetime as dt
 from streamlit_extras.mandatory_date_range import date_range_picker
-from .db import read_products, create_intervention, read_interventions
+from .db import read_products, create_intervention, read_interventions, get_profile
 
 
-def get_base64_of_bin_file(bin_file):
-    with open(bin_file, "rb") as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
+# def get_base64_of_bin_file(bin_file):
+#     with open(bin_file, "rb") as f:
+#         data = f.read()
+#     return base64.b64encode(data).decode()
 
 
-def set_png_as_page_bg(png_file):
-    bin_str = get_base64_of_bin_file(png_file)
-    page_bg_img = (
-        """
-    <style>
-    .stApp {
-    background-image: url("data:image/png;base64,%s");
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: bottom right;
-    }
-    </style>
-    """
-        % bin_str
-    )
+# def set_png_as_page_bg(png_file):
+#     bin_str = get_base64_of_bin_file(png_file)
+#     page_bg_img = (
+#         """
+#     <style>
+#     .stApp {
+#     background-image: url("data:image/png;base64,%s");
+#     background-repeat: no-repeat;
+#     background-position: top left;
+#     }
+#     </style>
+#     """
+#         % bin_str
+#     )
 
-    st.markdown(page_bg_img, unsafe_allow_html=True)
-    return
+#     st.markdown(page_bg_img, unsafe_allow_html=True)
+#     return
 
 
-def return_care(x):
-    return x
+# def return_care(x):
+#     return x
 
 
 def record_intervention():
     # set_png_as_page_bg("assets/images/Black Man _ Woman Feeling Sick.png")
 
     intvs = read_interventions()
-
+    curr_profile = get_profile(st.session_state["username"])
     placeholder = st.empty()
 
     with placeholder.container():
@@ -52,8 +51,18 @@ def record_intervention():
             use_column_width=True,
         )
 
-        st.write("**When Did You Record This Intervention**")
-        date = st.date_input("date", label_visibility="collapsed")
+        col1, col2 = st.columns([1, 1])
+        with col1:
+            st.write("**Where Did You Record This Intervention?**")
+            company = st.selectbox(
+                "Where did you record this?",
+                options=curr_profile["work_details"]["company"],
+                label_visibility="collapsed",
+            )
+        
+        with col2:
+            st.write("**When Did You Record This Intervention**")
+            date = st.date_input("date", label_visibility="collapsed")
 
         st.write("**Select The Pharmaceutical Care**")
         pharma_care_type = st.selectbox(
@@ -85,23 +94,24 @@ def record_intervention():
         intervention_details = st.text_area(
             "More Details", label_visibility="collapsed"
         )
+        if st.button("Save and Continue"):
 
-        form_submit = st.button("Save and Continue")
-
-    if form_submit:
-        # details = {
-        #     "recorded_date": date,
-        #     "pharmaceutical_care": pharma_care_type,
-        #     "pharmaceutical_care_details": pharma_care_details,
-        #     "medications": medications,
-        #     "intervention": intervention,
-        #     "intervention_details": intervention_details,
-        #     "pharmacist_details": st.session_state["username"],
-        # }
-        # st.session_state["intv_key"] = create_intervention(details)
-        st.session_state["intv_key"] = ""
-        
-        switch_page("my patients")
+            details = {
+                "recorded_date": date.strftime("%Y-%m-%d"),
+                "pharmaceutical_care": pharma_care_type,
+                "pharmaceutical_care_details": pharma_care_details,
+                "medications": medications,
+                "company":company,
+                "intervention": intervention,
+                "intervention_details": intervention_details,
+                "pharmacist_details": st.session_state["username"],
+            }
+            print(details)
+            st.session_state["intv_key"] = create_intervention(details)
+            st.session_state["add_patient"] = True
+            switch_page("my patients")
+        else:
+            st.stop()
 
 
 def reset_button():
@@ -113,7 +123,7 @@ def view_intervention():
     holder = st.empty()
 
     with holder.container():
-        st.header("All Interventions Completed")
+        st.header("Completed Interventions")
         date = date_range_picker(
             "Select a Date Range: ",
             default_start=dt.datetime.strptime("2023-01-01", "%Y-%m-%d"),

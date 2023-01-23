@@ -1,4 +1,6 @@
 import streamlit as st
+import streamlit.components.v1 as components
+
 
 def load_css_file(css_file_path):
     with open(css_file_path) as f:
