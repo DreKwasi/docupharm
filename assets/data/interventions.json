@@ -13,13 +13,9 @@
   "Drug therapy is not required": {
     "reason": [
       "No indication for prescribed drug",
-      "--",
       "Duplicated therapy (Multiple drugs of similar MoA with no known additional benefits)",
-      "--",
       "Addiction/Drug is being used for recreational purposes",
-      "--",
       "Drugs can be avoided without change in outcome",
-      "--",
       "The non-pharmacological approach will still work"
 
     ],
