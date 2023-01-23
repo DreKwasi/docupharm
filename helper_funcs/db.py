@@ -4,6 +4,8 @@ import pandas as pd
 import json
 
 st.cache
+
+
 def read_products():
     df = pd.read_csv("assets/data/products.csv")
 
@@ -11,6 +13,8 @@ def read_products():
 
 
 st.cache
+
+
 def read_locations():
     df = pd.read_csv("assets/data/locations.csv")
 
@@ -18,6 +22,8 @@ def read_locations():
 
 
 st.cache
+
+
 def read_interventions():
     with open("assets/data/interventions.json") as f:
         return json.load(f)
@@ -66,7 +72,8 @@ def update_user_profile(details, username):
 def get_profile(username):
     users = deta.Base("users")
     user_items = users.fetch({"username": username}).items
-    return user_items[0]['profile']
+    return user_items[0]["profile"]
+
 
 # Redirect to Complete Profile when User is Logged in for the First Time
 def check_profile(username):
@@ -82,11 +89,16 @@ def check_profile(username):
     except Exception:
         return False
 
+
 def create_intervention(details):
     interventions = deta.Base("interventions")
     intervention_dict = interventions.insert(details)
     return intervention_dict["key"]
 
+
+def update_intervention(details):
+    interventions = deta.Base("interventions")
+    intervention_dict = interventions.update(details, key=details['key'])
 
 def create_patient(details):
     patients = deta.Base("patients")
@@ -94,11 +106,24 @@ def create_patient(details):
     details["patient_id"] = {num_patients + 1}
     patients.insert(details)
 
+    # insert into interventions as well
+    intvs = deta.Base("interventions")
+    patient_intv = intvs.fetch({details["intv_key"]: "key"}).items[0]
+    patient_intv["patient"] = f"{details['First Name']} {details['Last Name']}"
+    intvs.update(patient_intv, key=patient_intv["key"])
+
 
 def update_patient(details, key):
-    key = key.values[0]
+    if type(key) != str:
+        key = key.values[0]
     patients = deta.Base("patients")
     patients.update(details, key=key)
+
+def get_patient(patient_key):
+    patients = deta.Base("patients")
+    patient = patients.get(key=patient_key)
+    return patient
+
 
 def get_all_patients():
     patients = deta.Base("patients")
@@ -130,3 +155,41 @@ def get_all_patients():
     ordered_df.fillna("None", inplace=True)
 
     return ordered_df
+
+
+def get_all_intvs():
+    intvs = deta.Base("interventions")
+    user_intvs = intvs.fetch().items
+    patients = deta.Base("patients")
+
+    final_list = []
+    for intv in user_intvs:
+        intv["patient_name"] = patients.get(key=intv["patient_key"])["patient_name"]
+        final_list.append(intv)
+
+    new_names = {
+        "company": "Company",
+        "intervention": "Intervention(s)",
+        "intervention_id": "Intervention ID",
+        "pharmaceutical_care": "Pharmaceutical Care",
+        "patient_name": "Patient Name",
+        "recorded_date": "Recorded Date",
+    }
+
+    df = pd.DataFrame(final_list)
+    df.rename(columns=new_names, inplace=True)
+    df = df.reindex(
+        columns=[
+            "Recorded Date",
+            "Intervention ID",
+            "Company",
+            "Patient Name",
+            "Pharmaceutical Care",
+            "Intervention(s)"
+
+        ]
+    )
+
+    df.fillna("None", inplace=True)
+    df.replace("", "None", inplace=True)
+    return df, final_list
