@@ -29,6 +29,7 @@ authenticator = st_auth.Authenticate(
 
 
 placeholder = st.empty()
+msg_holder = st.empty()
 
 
 if st.session_state["username"]:
@@ -59,8 +60,8 @@ else:
 
 
     if selected == "Sign In":
-        if "refresh" in st.session_state:
-            del st.session_state["refresh"]
+        # if "refresh" in st.session_state:
+        #     del st.session_state["refresh"]
             
         name, authentication_status, username = authenticator.login("Sign In", "main")
 
@@ -103,6 +104,9 @@ else:
             st.warning("Please enter your username and password")
 
     elif selected == "Sign Up":
+        msg_holder.empty()
+        if "success_message" in st.session_state:
+            del st.session_state["success_message"]
         try:
             if authenticator.register_user("Get Started 🧾", preauthorization=False):
                 db.create_user(
