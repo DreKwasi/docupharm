@@ -11,27 +11,24 @@ st.set_page_config(
     layout="centered",
 )
 
-st.session_state['refresh'] = 0
-default_index = 0
-if "add_patient" in st.session_state:
-    if st.session_state["add_patient"] == True:
-        default_index = 1
-        st.session_state["add_patient"] = False
 
+# st.session_state['refresh'] = 0
+# st.experimental_set_query_params(curr_page="my patients")
 
-
-st.experimental_set_query_params(curr_page="my patients")
 styles.load_css_file("styles/main.css")
 
 col1, col2, col3 = st.columns([1, 1, 1])
 with col2:
     if st.button("🏡 Go Home"):
         switch_page("home")
-        
+
 
 selected = option_menu(
     menu_title="",
-    options=[ "All Patient Details", "Add Patient Details"],
+    options=[
+        "Add Patient Details",
+        "All Patient Details",
+    ],
     orientation="horizontal",
 )
 

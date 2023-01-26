@@ -9,30 +9,29 @@ from streamlit_extras.metric_cards import style_metric_cards
 
 
 def show_dashboard():
-    params = st.experimental_get_query_params()
+    # params = st.experimental_get_query_params()
 
-    if params and "refresh" not in st.session_state:
-        switch_page(params["curr_page"][0])
+    # if params and "refresh" not in st.session_state:
+    #     switch_page(params["curr_page"][0])
 
-    st.experimental_set_query_params(curr_page="")
+    # st.experimental_set_query_params(curr_page="")
 
     st.subheader("My Impact")
     btncol1, btncol2 = st.columns([1, 2])
 
     with btncol1:
         if st.button("Add Intervention"):
-            st.session_state["add_intv"] = True
             switch_page("my intervention")
 
     with btncol2:
         if st.button("Review My Day"):
             switch_page("my days")
 
-    components.html(
-        read_html("styles/index.html"),
-        height=0,
-        width=0,
-    )
+    # components.html(
+    #     read_html("styles/index.html"),
+    #     height=0,
+    #     width=0,
+    # )
 
     metric1Col1, metric1Col2 = st.columns([1, 1])
     metric2Col1, metric2Col2 = st.columns([3, 1])

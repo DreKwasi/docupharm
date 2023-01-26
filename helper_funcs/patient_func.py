@@ -85,10 +85,8 @@ def record_details():
                     "intervention_key": st.session_state["intv_key"],
                 }
                 create_patient(details)
-                del st.session_state["intv_key"]
-                switch_page("my patient")
-            else:
-                st.stop()
+
+
 
 
 def view_details():
@@ -218,12 +216,3 @@ def view_details():
                 )
 
             st.experimental_rerun()
-        else:
-            st.stop()
-
-    #     date = date_range_picker(
-    #         "Select a Date Range: ",
-    #         default_start=dt.datetime.strptime("2023-01-01", "%Y-%m-%d"),
-    #         min_date=dt.datetime.strptime("2023-01-01", "%Y-%m-%d"),
-    #         max_date=dt.datetime.today(),
-    #     )

@@ -109,6 +109,7 @@ def record_intervention():
         if st.button("Save and Continue"):
 
             details = {
+                "intervention_id": "",
                 "recorded_date": date.strftime("%Y-%m-%d"),
                 "pharmaceutical_care": pharma_care_type,
                 "pharmaceutical_care_details": pharma_care_details,
@@ -116,10 +117,11 @@ def record_intervention():
                 "company": company,
                 "intervention": intervention,
                 "intervention_details": intervention_details,
-                "pharmacist_details": st.session_state["username"],
+                "pharmacist": st.session_state["username"],
             }
-            print(details)
-            st.session_state["intv_key"] = create_intervention(details)
+            st.session_state["intv_key"] = create_intervention(
+                details, st.session_state["username"]
+            )
             st.session_state["add_patient"] = True
             switch_page("my patients")
         else:
@@ -131,7 +133,7 @@ def reset_button():
 
 
 def view_intervention():
-    
+
     curr_profile = get_profile(st.session_state["username"])
     all_intvs = read_interventions()
 
@@ -145,7 +147,7 @@ def view_intervention():
     with placeholder.expander("**All Interventions**", expanded=True):
 
         # st.subheader("All Patient Details")
-        df, intvs_list = get_all_intvs()
+        df, intvs_list = get_all_intvs(st.session_state["username"])
 
         gd = GridOptionsBuilder.from_dataframe(df)
         gd.configure_pagination(
@@ -164,12 +166,15 @@ def view_intervention():
         )
     try:
         intv_data = new_df["selected_rows"][0]
-        print(intv_data)
     except IndexError:
         intv_data = {}
 
     with top_page.empty():
-        update_patient_details = st.checkbox(label="Update Patient's Details?")
+        check1, check2, x = st.columns([1, 1, 3])
+        with check1:
+            update_patient_details = st.checkbox(label="Update Patient's Details?")
+        
+
 
     if intv_data:
         filtered_intv = [
@@ -177,6 +182,10 @@ def view_intervention():
             for x in intvs_list
             if x["intervention_id"] == intv_data["Intervention ID"]
         ][0]
+        
+        if "patient_key" not in filtered_intv:
+            with check2:
+                add_patient_details = st.button(label="Add Patient")
 
         if not update_patient_details:
 
@@ -273,7 +282,7 @@ def view_intervention():
                 st.write("**Provide More Details**")
                 intervention_details = st.text_area(
                     "More Details",
-                    value=filtered_intv["details"],
+                    value=filtered_intv["intervention_details"],
                     label_visibility="collapsed",
                 )
 
@@ -288,19 +297,20 @@ def view_intervention():
                         "intervention": intervention,
                         "details": intervention_details,
                         "pharmacist": st.session_state["username"],
-                        "key": filtered_intv["key"],
                     }
-                    update_intervention(details)
+                    update_intervention(details, filtered_intv["key"])
                     st.experimental_rerun()
 
-                else:
-                    st.stop()
+
 
         elif update_patient_details:
+            try:
+                patient_data = get_patient(filtered_intv["patient_key"])
+            except KeyError:
+                st.error("There is No Patient Attached to this Intervention")
+                st.stop()
 
             with st.form("Edit Details"):
-
-                patient_data = get_patient(filtered_intv["patient_key"])
 
                 st.subheader(f"Edit Details (Patient {patient_data['patient_id']})")
                 gender_options = ["M", "F", "Rather Not Say"]
@@ -391,3 +401,10 @@ def view_intervention():
                 st.experimental_rerun()
             else:
                 st.stop()
+
+        if "patient_key" not in filtered_intv:
+            if add_patient_details:
+                st.session_state["intv_key"] = filtered_intv['key']
+                switch_page("my patients")
+
+            

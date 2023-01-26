@@ -2,6 +2,8 @@ from deta import Deta
 import streamlit as st
 import pandas as pd
 import json
+from streamlit_extras.switch_page_button import switch_page
+
 
 st.cache
 
@@ -90,27 +92,46 @@ def check_profile(username):
         return False
 
 
-def create_intervention(details):
+def create_intervention(details, username):
     interventions = deta.Base("interventions")
+    num_intvs = interventions.fetch({"pharmacist": username}).count
+    details["intervention_id"] = f"{num_intvs + 1}"
+
     intervention_dict = interventions.insert(details)
     return intervention_dict["key"]
 
 
-def update_intervention(details):
+def update_intervention(details, key):
     interventions = deta.Base("interventions")
-    interventions.update(details, key=details['key'])
+    interventions.update(details, key=key)
+
 
 def create_patient(details):
-    patients = deta.Base("patients")
-    num_patients = patients.fetch({"pharmacist": "drekwasi"}).count
-    details["patient_id"] = {num_patients + 1}
-    patients.insert(details)
+    if "intervention_key" in details and details["intervention_key"] != "":
+        patients = deta.Base("patients")
+        # insert into interventions as well
+        intvs = deta.Base("interventions")
 
-    # insert into interventions as well
-    intvs = deta.Base("interventions")
-    patient_intv = intvs.fetch({details["intv_key"]: "key"}).items[0]
-    patient_intv["patient"] = f"{details['First Name']} {details['Last Name']}"
-    intvs.update(patient_intv, key=patient_intv["key"])
+        patient_intv = intvs.fetch({"key": details["intervention_key"]}).items[0]
+
+        num_patients = patients.fetch({"pharmacist": details["pharmacist"]}).count
+        details["patient_id"] = f"{num_patients + 1}"
+        patients = patients.insert(details)
+
+        key = patient_intv["key"]
+        patient_intv["patient"] = f"{patients['patient_name']}"
+        patient_intv["patient_key"] = f"{patients['key']}"
+
+        del patient_intv["key"]
+
+        intvs.update(patient_intv, key=key)
+
+        st.session_state["intv_key"] = ""
+        switch_page("my intervention")
+    else:
+        st.error("Kindly Add An Intervention for this Patient")
+        if st.button("Add Intervention"):
+            switch_page("my intervention")
 
 
 def update_patient(details, key):
@@ -118,6 +139,7 @@ def update_patient(details, key):
         key = key.values[0]
     patients = deta.Base("patients")
     patients.update(details, key=key)
+
 
 def get_patient(patient_key):
     patients = deta.Base("patients")
@@ -157,14 +179,17 @@ def get_all_patients():
     return ordered_df
 
 
-def get_all_intvs():
+def get_all_intvs(username):
     intvs = deta.Base("interventions")
-    user_intvs = intvs.fetch().items
+    user_intvs = intvs.fetch({"pharmacist": username}).items
     patients = deta.Base("patients")
 
     final_list = []
     for intv in user_intvs:
-        intv["patient_name"] = patients.get(key=intv["patient_key"])["patient_name"]
+        try:
+            intv["patient_name"] = patients.get(key=intv["patient_key"])["patient_name"]
+        except KeyError:
+            intv["patient_name"] = "No Patient"
         final_list.append(intv)
 
     new_names = {
@@ -185,8 +210,7 @@ def get_all_intvs():
             "Company",
             "Patient Name",
             "Pharmaceutical Care",
-            "Intervention(s)"
-
+            "Intervention(s)",
         ]
     )
 

@@ -12,15 +12,10 @@ st.set_page_config(
     layout="centered",
 )
 
-st.session_state["refresh"] = "not refresh"
 
-default_index = 0
-if "add_intv" in st.session_state:
-    if st.session_state["add_intv"] == True:
-        default_index = 1
-        st.session_state["add_intv"] = False
 
-st.experimental_set_query_params(curr_page="my intervention")
+# st.session_state["refresh"] = "not refresh"
+# st.experimental_set_query_params(curr_page="my intervention")
 
 load_css_file("styles/main.css")
 
@@ -32,9 +27,9 @@ with col2:
 
 selected = option_menu(
     menu_title="",
-    options=["All Interventions", "Add Intervention"],
+    options=["Add Intervention", "All Interventions"],
     orientation="horizontal",
-    default_index=default_index,
+    default_index=0,
 )
 
 

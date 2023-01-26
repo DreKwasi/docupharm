@@ -11,8 +11,11 @@ st.set_page_config(
     layout="centered",
 )
 
-st.session_state['refresh'] = 0
-st.experimental_set_query_params(curr_page="my profile")
+if "intv_key" in st.session_state:
+    del st.session_state["intv_key"]
+
+# st.session_state['refresh'] = 0
+# st.experimental_set_query_params(curr_page="my profile")
 load_css_file("styles/main.css")
 
 
