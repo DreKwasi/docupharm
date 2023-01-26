@@ -116,7 +116,7 @@ def record_intervention():
                 "medications": medications,
                 "company": company,
                 "intervention": intervention,
-                "intervention_details": intervention_details,
+                "intervention_details": intervention_details if intervention != None else "None",
                 "pharmacist": st.session_state["username"],
             }
             st.session_state["intv_key"] = create_intervention(
@@ -295,7 +295,7 @@ def view_intervention():
                         "medications": medications,
                         "company": company,
                         "intervention": intervention,
-                        "details": intervention_details,
+                        "details": intervention_details if intervention != None else "None",
                         "pharmacist": st.session_state["username"],
                     }
                     update_intervention(details, filtered_intv["key"])

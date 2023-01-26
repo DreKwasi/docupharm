@@ -49,20 +49,9 @@ def get_all_user_details():
     return usernames
 
 
-def create_user(usernames):
+def create_user(details):
     users = deta.Base("users")
-    previous_users = users.fetch().items
-    previous_usernames = [x["username"] for x in previous_users]
-
-    new_username = {
-        key: value for key, value in usernames.items() if key not in previous_usernames
-    }
-
-    first_key = next(iter(new_username))
-    insert_user = new_username[first_key]
-    insert_user["username"] = first_key
-    insert_user["profile"] = {}
-    users.insert(insert_user)
+    users.insert(details)
 
 
 def update_user_profile(details, username):
