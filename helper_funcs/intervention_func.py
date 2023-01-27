@@ -136,42 +136,42 @@ def view_intervention():
     curr_profile = get_profile(st.session_state["username"])
     all_intvs = read_interventions()
 
-    st.info("Select the Checkbox of the Corresponding Patient to Edit")
-    msg = st.empty()
-
+    st.info("Select the Patient/Intervention to Edit (Headings are Searchable)")
+    
     placeholder = st.empty()
     top_page = st.empty()
     form_holder = st.empty()
 
-    with placeholder.expander("**All Interventions**", expanded=True):
+    with st.spinner("Loading..."):
+        with placeholder.expander("**All Interventions**", expanded=True):
 
-        # st.subheader("All Patient Details")
-        df, intvs_list = get_all_intvs(st.session_state["username"])
+            # st.subheader("All Patient Details")
+            df, intvs_list = get_all_intvs(st.session_state["username"])
 
-        gd = GridOptionsBuilder.from_dataframe(df)
-        gd.configure_pagination(
-            enabled=True, paginationAutoPageSize=False, paginationPageSize=5
-        )
-        gd.configure_default_column(editable=False, groupable=True)
-        gd.configure_selection(selection_mode="single", use_checkbox=True)
-        gridoptions = gd.build()
-        new_df = AgGrid(
-            df,
-            height=300,
-            gridOptions=gridoptions,
-            GridUpdateMode=GridUpdateMode.SELECTION_CHANGED,
-            theme="alpine",
-            enable_enterprise_modules=False,
-        )
+            gd = GridOptionsBuilder.from_dataframe(df)
+            gd.configure_pagination(
+                enabled=True, paginationAutoPageSize=False, paginationPageSize=5
+            )
+            gd.configure_default_column(editable=False, groupable=True)
+            gd.configure_selection(selection_mode="single", use_checkbox=False)
+            gridoptions = gd.build()
+            new_df = AgGrid(
+                df,
+                height=300,
+                gridOptions=gridoptions,
+                GridUpdateMode=GridUpdateMode.SELECTION_CHANGED,
+                theme="balham",
+                enable_enterprise_modules=False,
+            )
+    
     try:
         intv_data = new_df["selected_rows"][0]
     except IndexError:
         intv_data = {}
 
     with top_page.empty():
-        check1, check2, x = st.columns([1, 1, 3])
-        with check1:
-            update_patient_details = st.checkbox(label="Update Patient's Details?")
+        check1, check2 = st.columns([1, 1])
+
         
 
 
@@ -182,9 +182,12 @@ def view_intervention():
             if x["intervention_id"] == intv_data["Intervention ID"]
         ][0]
         
+        with check1:
+            update_patient_details = st.checkbox(label="Update Patient's Details")
+        
         if "patient_key" not in filtered_intv:
             with check2:
-                add_patient_details = st.checkbox(label="Add Patient")
+                add_patient_details = st.button(label="Forgot to Add A Patient?")
 
         if not update_patient_details:
 
@@ -299,9 +302,6 @@ def view_intervention():
                     }
                     update_intervention(details, filtered_intv["key"])
                     st.experimental_rerun()
-                
-                else:
-                    st.stop()
 
 
 
@@ -314,7 +314,7 @@ def view_intervention():
 
             with st.form("Edit Details"):
 
-                st.subheader(f"Edit Details (Patient {patient_data['patient_id']})")
+                st.subheader(f"Edit Patient {patient_data['patient_id']}'s Details")
                 gender_options = ["M", "F", "Rather Not Say"]
 
                 if patient_data["gender"] != "":
@@ -401,14 +401,12 @@ def view_intervention():
                     )
 
                 st.experimental_rerun()
-            else:
-                st.stop()
+
 
         if "patient_key" not in filtered_intv:
             if add_patient_details:
                 st.session_state["intv_key"] = filtered_intv['key']
                 switch_page("my patients")
-            else:
-                st.stop()
+
 
             

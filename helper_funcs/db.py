@@ -98,6 +98,7 @@ def update_intervention(details, key):
 def create_patient(details):
     if "intervention_key" in details and details["intervention_key"] != "":
         patients = deta.Base("patients")
+
         # insert into interventions as well
         intvs = deta.Base("interventions")
 
@@ -107,13 +108,12 @@ def create_patient(details):
         details["patient_id"] = f"{num_patients + 1}"
         patients = patients.insert(details)
 
-        key = patient_intv["key"]
         patient_intv["patient"] = f"{patients['patient_name']}"
         patient_intv["patient_key"] = f"{patients['key']}"
 
         del patient_intv["key"]
 
-        intvs.update(patient_intv, key=key)
+        intvs.update(patient_intv, key=details["intervention_key"])
 
         st.session_state["intv_key"] = ""
         switch_page("my intervention")
@@ -123,11 +123,40 @@ def create_patient(details):
             switch_page("my intervention")
 
 
-def update_patient(details, key):
+def update_patient(details, key, intv_key=None):
     if type(key) != str:
         key = key.values[0]
+
     patients = deta.Base("patients")
-    patients.update(details, key=key)
+
+    if intv_key != None:
+
+        if intv_key != "":
+
+            details["intervention_key"] = patients.util.append(intv_key)
+            patients.update(details, key=key)
+
+            # insert into interventions as well
+            intvs = deta.Base("interventions")
+
+            patient_intv = intvs.fetch({"key": intv_key}).items[0]
+
+            del patient_intv["key"]
+
+            patient_intv["patient"] = f"{details['patient_name']}"
+            patient_intv["patient_key"] = key
+
+            intvs.update(patient_intv, key=intv_key)
+
+            st.session_state["intv_key"] = ""
+            switch_page("my intervention")
+        else:
+            st.error("Kindly Add An Intervention for this Patient")
+            if st.button("Add Intervention"):
+                switch_page("my intervention")
+
+    else:
+        patients.update(details, key=key)
 
 
 def get_patient(patient_key):
@@ -195,11 +224,11 @@ def get_all_intvs(username):
     df = df.reindex(
         columns=[
             "Recorded Date",
-            "Intervention ID",
-            "Company",
             "Patient Name",
+            "Intervention ID",
             "Pharmaceutical Care",
             "Intervention(s)",
+            "Company",
         ]
     )
 
@@ -211,7 +240,26 @@ def get_all_intvs(username):
 def get_dashboard_data(username):
     intvs = deta.Base("interventions")
     patients = deta.Base("patients")
-    df_patient = pd.DataFrame(patients.fetch({"pharmacist": username}).items)
+    final_list = patients.fetch({"pharmacist": username}).items
+    patients_list = [
+        {
+            "intervention_key": val,
+            "further_details": i["further_details"],
+            "gender": i["gender"],
+            "key": i["key"],
+            "patient_id": i["patient_id"],
+            "patient_name": i["patient_name"],
+            "pharmacist": i["pharmacist"],
+            "phone_number": i["phone_number"],
+            "weight": i["weight"],
+        }
+        for i in final_list
+        for key, value in i.items()
+        if key == "intervention_key" and value
+        for val in value
+    ]
+
+    df_patient = pd.DataFrame(patients_list)
     df_intv = pd.DataFrame(intvs.fetch({"pharmacist": username}).items)
 
     return df_patient, df_intv
