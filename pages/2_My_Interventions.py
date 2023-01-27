@@ -14,6 +14,7 @@ st.set_page_config(
 )
 
 page_util.delete_page("Home", "Add_My_Intervention")
+
 page_util.delete_page("Home", "Add_My_Patients")
 
 
