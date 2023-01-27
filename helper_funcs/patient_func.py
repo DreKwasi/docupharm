@@ -33,7 +33,7 @@ def view_details(intv_key=None):
             gd.configure_default_column(
                 editable=False, groupable=True, min_column_width=1
             )
-            gd.configure_selection(selection_mode="single", use_checkbox=False)
+            gd.configure_selection(selection_mode="single", use_checkbox=True)
             gridoptions = gd.build()
             new_df = AgGrid(
                 df,

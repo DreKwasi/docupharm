@@ -160,7 +160,7 @@ def view_intervention():
                 enabled=True, paginationAutoPageSize=False, paginationPageSize=7
             )
             gd.configure_default_column(editable=False, groupable=True)
-            gd.configure_selection(selection_mode="single", use_checkbox=False)
+            gd.configure_selection(selection_mode="single", use_checkbox=True)
             gridoptions = gd.build()
             new_df = AgGrid(
                 df,
