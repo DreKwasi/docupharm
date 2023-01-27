@@ -1,8 +1,9 @@
 import streamlit as st
 import streamlit_authenticator as st_auth
 from streamlit_option_menu import option_menu
-from helper_funcs import db, home_func, styles, register_user
 from streamlit_extras.switch_page_button import switch_page
+from helper_funcs import db, home_func, styles, register_user
+
 import warnings
 
 warnings.filterwarnings("ignore")
