@@ -3,7 +3,9 @@ import streamlit_authenticator as st_auth
 from streamlit_option_menu import option_menu
 from helper_funcs import db, home_func, styles, register_user
 from streamlit_extras.switch_page_button import switch_page
+import warnings
 
+warnings.filterwarnings("ignore")
 
 st.set_page_config(
     page_title="DocuPharm",
@@ -35,7 +37,7 @@ msg_holder = st.empty()
 with placeholder.container():
     options = ["Sign In", "Sign Up"]
     selected = option_menu(menu_title="", options=options, orientation="horizontal")
-    
+
     st.header("Welcome to DocuPharm 🎈🎈🎈")
     st.subheader("The #1 Impact Tracker for Pharmacists 👨‍⚕️👩‍⚕️")
 
@@ -49,10 +51,6 @@ if selected == "Sign In":
     name, authentication_status, username = authenticator.login("Sign In", "main")
 
     if authentication_status:
-        placeholder.empty()
-        if "success_message" in st.session_state:
-            del st.session_state["success_message"]
-            
         (
             st.session_state["name"],
             st.session_state["authentication_status"],
@@ -62,6 +60,10 @@ if selected == "Sign In":
             authentication_status,
             username,
         )
+        placeholder.empty()
+
+        if "success_message" in st.session_state:
+            del st.session_state["success_message"]
 
         st.session_state["authenticator"] = authenticator
 
@@ -71,11 +73,8 @@ if selected == "Sign In":
         with st.sidebar.empty():
             authenticator.logout("Logout", "main")
 
-
         st.header(f'Hello,  {st.session_state["name"]} :grinning:')
         home_func.show_dashboard()
-
-
 
     elif authentication_status == False:
         st.error("Username/password is incorrect")
@@ -92,5 +91,5 @@ elif selected == "Sign Up":
         st.session_state[
             "success_message"
         ] = "User registered successfully. Please Log In"
-        
+
         switch_page("my days")

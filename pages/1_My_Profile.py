@@ -2,7 +2,8 @@ import streamlit as st
 from streamlit_extras.switch_page_button import switch_page
 from helper_funcs import profile_func
 from helper_funcs.styles import load_css_file
-
+import warnings
+warnings.filterwarnings("ignore")
 
 st.set_page_config(
     page_title="Form",
