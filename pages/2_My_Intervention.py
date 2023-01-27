@@ -47,9 +47,6 @@ if "authentication_status" in st.session_state or "username" in st.session_state
         elif selected == "All Interventions":
             intervention_func.view_intervention()
 
-        with st.sidebar.empty():
-            st.session_state["authenticator"].logout("Logout", "main")
-
     elif st.session_state["authentication_status"] == False:
         switch_page("home")
 
