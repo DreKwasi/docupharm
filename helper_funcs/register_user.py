@@ -2,6 +2,24 @@ import streamlit as st
 import streamlit_authenticator as st_auth
 from .db import create_user, read_locations
 from streamlit_extras.no_default_selectbox import selectbox
+import re
+
+
+
+# Define a function for
+# for validating an Email
+def check(email):
+    
+    # Make a regular expression
+    # for validating an Email
+    regex = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b"
+
+    # pass the regular expression
+    # and the string into the fullmatch() method
+    if re.fullmatch(regex, email):
+        return True
+    else:
+        return False
 
 
 def register(credentials):
@@ -128,7 +146,7 @@ def register(credentials):
             and len(work_details["location"])
             and len(work_details["category"]) > 0
         ):
-            if new_username not in credentials["usernames"]:
+            if new_username not in credentials["usernames"] and check(new_username):
                 if password1 == password2:
                     hashed_pw = st_auth.Hasher([password1])
 
