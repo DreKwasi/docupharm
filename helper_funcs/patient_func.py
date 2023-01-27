@@ -3,7 +3,6 @@ import streamlit as st
 # from streamlit_extras.mandatory_date_range import date_range_picker
 from streamlit_extras.switch_page_button import switch_page
 from .db import create_patient, get_all_patients, update_patient
-from streamlit_toggle import st_toggle_switch
 from st_aggrid import AgGrid, GridUpdateMode
 from st_aggrid.grid_options_builder import GridOptionsBuilder
 from .validators import validate_patient

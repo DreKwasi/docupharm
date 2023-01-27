@@ -14,9 +14,6 @@ st.set_page_config(
 
 page_util.delete_page("Home", "Add_My_Intervention")
 
-page_util.delete_page("Home", "Add_My_Patients")
-
-
 # st.session_state["refresh"] = "not refresh"
 # st.experimental_set_query_params(curr_page="my intervention")
 
