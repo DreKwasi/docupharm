@@ -128,7 +128,7 @@ def register(credentials):
             and len(work_details["location"])
             and len(work_details["category"]) > 0
         ):
-            if new_username not in credentials["usernames"] and "@" in new_username:
+            if new_username not in credentials["usernames"]:
                 if password1 == password2:
                     hashed_pw = st_auth.Hasher([password1])
 
