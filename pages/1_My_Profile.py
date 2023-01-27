@@ -25,19 +25,13 @@ if "authentication_status" in st.session_state or "username" in st.session_state
         with st.sidebar.empty():
             st.session_state["authenticator"].logout("Logout", "main")
 
+
         col1, col2, col3 = st.columns([1, 1, 1])
         with col2:
-            if st.button(
-                "🏡 Go Home",
-                disabled=False
-                if st.session_state["profile_header"] == "Profile Details"
-                else True,
-            ):
+            if st.button("🏡 Go Home", disabled=False):
                 switch_page("home")
-        if st.session_state["profile_header"] == "Profile Details":
-            profile_func.update_profile()
-        else:
-            profile_func.show_profile()
+
+        profile_func.update_profile()
         
 
     elif st.session_state["authentication_status"] == False:

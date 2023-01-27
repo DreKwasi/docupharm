@@ -37,14 +37,12 @@ if "authentication_status" in st.session_state or "username" in st.session_state
 
     if st.session_state["authentication_status"]:
 
-        if db.check_profile(st.session_state["username"]):
-            if selected == "Add Patient Details":
+        if selected == "Add Patient Details":
                 patient_func.record_details()
 
-            elif selected == "All Patient Details":
+        elif selected == "All Patient Details":
                 patient_func.view_details()
-        else:
-            switch_page("my profile")
+
 
         with st.sidebar.empty():
             st.session_state["authenticator"].logout("Logout", "main")

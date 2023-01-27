@@ -22,11 +22,8 @@ if st.button("🏡 Go Home"):
 
 if "authentication_status" in st.session_state or "username" in st.session_state:
 
-    if st.session_state["authentication_status"]:
-        if db.check_profile(st.session_state['username']):
-            st.header("Under Construction 👷")
-        else:
-            switch_page("my profile")
+    if db.check_profile(st.session_state['username']):
+        st.header("Under Construction 👷")
 
     elif st.session_state["authentication_status"] == False:
         switch_page("home")

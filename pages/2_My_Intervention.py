@@ -13,7 +13,6 @@ st.set_page_config(
 )
 
 
-
 # st.session_state["refresh"] = "not refresh"
 # st.experimental_set_query_params(curr_page="my intervention")
 
@@ -37,14 +36,12 @@ if "authentication_status" in st.session_state or "username" in st.session_state
 
     if st.session_state["authentication_status"]:
 
-        if db.check_profile(st.session_state["username"]):
-            if selected == "Add Intervention":
+        if selected == "Add Intervention":
                 intervention_func.record_intervention()
 
-            elif selected == "All Interventions":
+        elif selected == "All Interventions":
                 intervention_func.view_intervention()
-        else:
-            switch_page("my profile")
+
 
         with st.sidebar.empty():
             st.session_state["authenticator"].logout("Logout", "main")
