@@ -49,6 +49,7 @@ if selected == "Sign In":
     name, authentication_status, username = authenticator.login("Sign In", "main")
 
     if authentication_status:
+        placeholder.empty()
         if "success_message" in st.session_state:
             del st.session_state["success_message"]
             
