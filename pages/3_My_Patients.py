@@ -37,12 +37,16 @@ if "authentication_status" in st.session_state or "username" in st.session_state
 
     if st.session_state["authentication_status"]:
 
+        st.sidebar.subheader(f"""DocuPharm \n The #1 Impact Tracker for Pharmacists""")
+
+        with st.sidebar.empty():
+            st.session_state["authenticator"].logout("Logout", "main")
+
         if selected == "Add Patient Details":
-                patient_func.record_details()
+            patient_func.record_details()
 
         elif selected == "All Patient Details":
-                patient_func.view_details()
-
+            patient_func.view_details()
 
         with st.sidebar.empty():
             st.session_state["authenticator"].logout("Logout", "main")

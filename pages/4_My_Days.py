@@ -18,11 +18,14 @@ if st.button("🏡 Go Home"):
     switch_page("home")
 
 
-
-
 if "authentication_status" in st.session_state or "username" in st.session_state:
 
-    if db.check_profile(st.session_state['username']):
+    if st.session_state["authentication_status"]:
+        st.sidebar.subheader(f"""DocuPharm \n The #1 Impact Tracker for Pharmacists""")
+
+        with st.sidebar.empty():
+            st.session_state["authenticator"].logout("Logout", "main")
+            
         st.header("Under Construction 👷")
 
     elif st.session_state["authentication_status"] == False:

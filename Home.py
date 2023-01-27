@@ -64,9 +64,6 @@ if selected == "Sign In":
 
         st.session_state["authenticator"] = authenticator
 
-
-        placeholder.empty()
-
         st.sidebar.subheader(
             """Welcome to DocuPharm \n The #1 Impact Tracker for Pharmacists"""
         )
