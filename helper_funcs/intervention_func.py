@@ -300,6 +300,9 @@ def view_intervention():
                     }
                     update_intervention(details, filtered_intv["key"])
                     st.experimental_rerun()
+                
+                else:
+                    st.stop()
 
 
 
@@ -406,5 +409,7 @@ def view_intervention():
             if add_patient_details:
                 st.session_state["intv_key"] = filtered_intv['key']
                 switch_page("my patients")
+            else:
+                st.stop()
 
             

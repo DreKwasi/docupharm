@@ -23,7 +23,7 @@ def validate(details):
 def show_profile():
     locs = read_locations()["locs"].tolist()
 
-    st.subheader(st.session_state["profile_header"])
+    st.subheader("Profile Details")
     placeholder = st.empty()
 
     with placeholder.container():
@@ -138,7 +138,7 @@ def update_profile():
     gender_list.remove(curr_profile["gender"])
     gender_list.insert(0, curr_profile["gender"])
 
-    st.subheader(st.session_state["profile_header"])
+    st.subheader('Profile Details')
     placeholder = st.empty()
 
     with placeholder.container():
