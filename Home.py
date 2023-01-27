@@ -64,23 +64,20 @@ if selected == "Sign In":
 
         st.session_state["authenticator"] = authenticator
 
+
+        placeholder.empty()
+
+        st.sidebar.subheader(
+            """Welcome to DocuPharm \n The #1 Impact Tracker for Pharmacists"""
+        )
         with st.sidebar.empty():
             authenticator.logout("Logout", "main")
 
-        placeholder.empty()
-        if st.session_state["username"] and db.check_profile(
-            st.session_state["username"]
-        ):
 
-            st.sidebar.subheader(
-                """Welcome to DocuPharm \n The #1 Impact Tracker for Pharmacists"""
-            )
+        st.header(f'Hello,  {st.session_state["name"]} :grinning:')
+        home_func.show_dashboard()
 
-            st.header(f'Hello,  {st.session_state["name"]} :grinning:')
-            home_func.show_dashboard()
 
-        else:
-            switch_page("my profile")
 
     elif authentication_status == False:
         st.error("Username/password is incorrect")
