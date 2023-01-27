@@ -206,3 +206,12 @@ def get_all_intvs(username):
     df.fillna("None", inplace=True)
     df.replace("", "None", inplace=True)
     return df, final_list
+
+
+def get_dashboard_data(username):
+    intvs = deta.Base("interventions")
+    patients = deta.Base("patients")
+    df_patient = pd.DataFrame(patients.fetch({"pharmacist": username}).items)
+    df_intv = pd.DataFrame(intvs.fetch({"pharmacist": username}).items)
+
+    return df_patient, df_intv
