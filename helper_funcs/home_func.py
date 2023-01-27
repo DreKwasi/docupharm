@@ -24,7 +24,7 @@ def show_dashboard():
     with btncol1:
         if st.button("Add Intervention"):
             page_util.add_page("Home", "Add_My_Intervention")
-            switch_page("add my interventions")
+            switch_page("add my intervention")
 
     with btncol2:
         if st.button("Review My Day"):
