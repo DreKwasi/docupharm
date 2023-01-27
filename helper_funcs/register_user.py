@@ -131,45 +131,46 @@ def register(credentials):
         register = st.form_submit_button("Register")
 
     if register:
-        work_details = {}
-        rows = [x for x in range(2) if st.session_state[f"Company {x}"] != ""]
+        with st.spinner("Loading ..."):
+            work_details = {}
+            rows = [x for x in range(2) if st.session_state[f"Company {x}"] != ""]
 
-        work_details["company"] = [st.session_state[f"Company {x}"] for x in rows]
-        work_details["location"] = [st.session_state[f"Location {x}"] for x in rows]
-        work_details["category"] = [st.session_state[f"Category {x}"] for x in rows]
-        if (
-            len(new_username)
-            and len(first_name)
-            and len(last_name)
-            and len(password1)
-            and len(work_details["company"])
-            and len(work_details["location"])
-            and len(work_details["category"]) > 0
-        ):
-            if new_username not in credentials["usernames"] and check(new_username):
-                if password1 == password2:
-                    hashed_pw = st_auth.Hasher([password1])
+            work_details["company"] = [st.session_state[f"Company {x}"] for x in rows]
+            work_details["location"] = [st.session_state[f"Location {x}"] for x in rows]
+            work_details["category"] = [st.session_state[f"Category {x}"] for x in rows]
+            if (
+                len(new_username)
+                and len(first_name)
+                and len(last_name)
+                and len(password1)
+                and len(work_details["company"])
+                and len(work_details["location"])
+                and len(work_details["category"]) > 0
+            ):
+                if new_username not in credentials["usernames"] and check(new_username):
+                    if password1 == password2:
+                        hashed_pw = st_auth.Hasher([password1])
 
-                    details = {
-                        "username": new_username,
-                        "email": new_username,
-                        "profile": {
-                            "first_name": first_name,
-                            "last_name": last_name,
-                            "gender": gender,
-                            "status": status,
-                            "reg_number": reg_number,
-                            "work_details": work_details,
-                        },
-                        "name": first_name + " " + last_name,
-                        "password": hashed_pw.generate()[0],
-                    }
+                        details = {
+                            "username": new_username,
+                            "email": new_username,
+                            "profile": {
+                                "first_name": first_name,
+                                "last_name": last_name,
+                                "gender": gender,
+                                "status": status,
+                                "reg_number": reg_number,
+                                "work_details": work_details,
+                            },
+                            "name": first_name + " " + last_name,
+                            "password": hashed_pw.generate()[0],
+                        }
 
-                    create_user(details)
-                    return True
+                        create_user(details)
+                        return True
+                    else:
+                        st.error("Passwords do not match")
                 else:
-                    st.error("Passwords do not match")
+                    st.error("Username can only be a valid Email Address")
             else:
-                st.error("Username can only be a valid Email Address")
-        else:
-            st.error("Please enter an email, username, name, password and work details")
+                st.error("Please enter an email, username, name, password and work details")
