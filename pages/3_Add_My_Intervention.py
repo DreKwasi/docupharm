@@ -1,5 +1,4 @@
 import streamlit as st
-from streamlit_option_menu import option_menu
 from streamlit_extras.switch_page_button import switch_page
 from helper_funcs import intervention_func, page_util
 from helper_funcs.styles import load_css_file
