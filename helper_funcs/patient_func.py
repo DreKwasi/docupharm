@@ -156,7 +156,7 @@ def record_details():
         if st.button("Goto Intervention"):
             switch_page("my intervention")
 
-    elif add.checkbox("Add New Intervention"):
+    elif add.checkbox("Add New Patient"):
         with placeholder.container():
             col1, col2, x = st.columns([1, 1, 4])
             col1.markdown(":red[**Oops! I Couldn't Capture Patient's Details**]")
