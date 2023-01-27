@@ -16,7 +16,6 @@ from .db import (
 )
 from st_aggrid import AgGrid, GridUpdateMode
 from st_aggrid.grid_options_builder import GridOptionsBuilder
-from streamlit_toggle import st_toggle_switch
 
 # def get_base64_of_bin_file(bin_file):
 #     with open(bin_file, "rb") as f:
@@ -185,7 +184,7 @@ def view_intervention():
         
         if "patient_key" not in filtered_intv:
             with check2:
-                add_patient_details = st.button(label="Add Patient")
+                add_patient_details = st.checkbox(label="Add Patient")
 
         if not update_patient_details:
 
