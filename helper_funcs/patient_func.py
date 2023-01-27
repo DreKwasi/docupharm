@@ -22,9 +22,7 @@ def record_details():
             col1, col2, x = st.columns([1, 1, 4])
             col1.markdown(":red[**Oops! I Couldn't Capture Patient's Details**]")
             with col2:
-                if st_toggle_switch(
-                    active_color="#c98191", track_color="#06141a", label_after=True
-                ):
+                if st.checkbox("No Details", label_visibility="collapsed"):
                     st.session_state["disable"] = True
                 else:
                     st.session_state["disable"] = False
