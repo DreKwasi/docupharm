@@ -91,4 +91,4 @@ elif selected == "Sign Up":
         st.session_state[
             "success_message"
         ] = "User registered successfully. Please Log In"
-        switch_page("profile")
+        switch_page("my profile")
