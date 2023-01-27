@@ -2,7 +2,6 @@ import streamlit as st
 from .db import read_locations, update_user_profile, get_profile
 from streamlit_extras.switch_page_button import switch_page
 from streamlit_extras.no_default_selectbox import selectbox
-from .validators import validate_profile
 
 def validate(details):
     work_details = details["work_details"]
@@ -23,7 +22,6 @@ def validate(details):
 def show_profile():
     locs = read_locations()["locs"].tolist()
 
-    error_placehoder = st.empty()
     st.subheader("Profile Details")
     placeholder = st.empty()
 
