@@ -16,6 +16,7 @@ from .db import (
 )
 from st_aggrid import AgGrid, GridUpdateMode
 from st_aggrid.grid_options_builder import GridOptionsBuilder
+from .validators import validate_intervention
 
 # def get_base64_of_bin_file(bin_file):
 #     with open(bin_file, "rb") as f:
@@ -51,81 +52,86 @@ def record_intervention():
 
     all_intvs = read_interventions()
     curr_profile = get_profile(st.session_state["username"])
+    
     placeholder = st.empty()
+    if len(curr_profile["work_details"]["company"]) > 0:
+        with placeholder.container():
+            st.markdown("#### Only 7-star Pharmacists Lead Interventions. Kudos!!")
 
-    with placeholder.container():
-        st.markdown("#### Only 7-star Pharmacists Lead Interventions. Kudos!!")
+            st.image(
+                "assets/images/Black Man _ Woman Feeling Sick.png",
+                width=300,
+                use_column_width=True,
+            )
 
-        st.image(
-            "assets/images/Black Man _ Woman Feeling Sick.png",
-            width=300,
-            use_column_width=True,
-        )
+            col1, col2 = st.columns([1, 1])
+            with col1:
+                st.write("**Where Did You Record This Intervention?**")
+                company = st.selectbox(
+                    "Where did you record this?",
+                    options=curr_profile["work_details"]["company"],
+                    label_visibility="collapsed",
+                )
 
-        col1, col2 = st.columns([1, 1])
-        with col1:
-            st.write("**Where Did You Record This Intervention?**")
-            company = st.selectbox(
-                "Where did you record this?",
-                options=curr_profile["work_details"]["company"],
+            with col2:
+                st.write("**When Did You Record This Intervention**")
+                date = st.date_input("date", label_visibility="collapsed")
+
+            st.write("**Select The Pharmaceutical Care**")
+            pharma_care_type = st.selectbox(
+                "Pharma Care Type", options=all_intvs.keys(), label_visibility="collapsed"
+            )
+
+            st.write("**Provide More Details**")
+            pharma_care_details = st.multiselect(
+                "Pharma Details",
+                options=all_intvs[pharma_care_type]["reason"],
                 label_visibility="collapsed",
             )
 
-        with col2:
-            st.write("**When Did You Record This Intervention**")
-            date = st.date_input("date", label_visibility="collapsed")
-
-        st.write("**Select The Pharmaceutical Care**")
-        pharma_care_type = st.selectbox(
-            "Pharma Care Type", options=all_intvs.keys(), label_visibility="collapsed"
-        )
-
-        st.write("**Provide More Details**")
-        pharma_care_details = st.multiselect(
-            "Pharma Details",
-            options=all_intvs[pharma_care_type]["reason"],
-            label_visibility="collapsed",
-        )
-
-        st.write("**Select Medications Involved**")
-        medications = st.multiselect(
-            "Medications",
-            options=read_products()["Products"].tolist(),
-            label_visibility="collapsed",
-        )
-
-        st.write("**What Was Your Intervention**")
-        intervention = st.multiselect(
-            "Intervention",
-            options=all_intvs[pharma_care_type]["solution"],
-            label_visibility="collapsed",
-        )
-
-        st.write("**Provide More Details**")
-        intervention_details = st.text_area(
-            "More Details", label_visibility="collapsed"
-        )
-        if st.button("Save and Continue"):
-
-            details = {
-                "intervention_id": "",
-                "recorded_date": date.strftime("%Y-%m-%d"),
-                "pharmaceutical_care": pharma_care_type,
-                "pharmaceutical_care_details": pharma_care_details,
-                "medications": medications,
-                "company": company,
-                "intervention": intervention,
-                "intervention_details": intervention_details if intervention != None else "None",
-                "pharmacist": st.session_state["username"],
-            }
-            st.session_state["intv_key"] = create_intervention(
-                details, st.session_state["username"]
+            st.write("**Select Medications Involved**")
+            medications = st.multiselect(
+                "Medications",
+                options=read_products()["Products"].tolist(),
+                label_visibility="collapsed",
             )
-            st.session_state["add_patient"] = True
-            switch_page("my patients")
-        else:
-            st.stop()
 
+            st.write("**What Was Your Intervention**")
+            intervention = st.multiselect(
+                "Intervention",
+                options=all_intvs[pharma_care_type]["solution"],
+                label_visibility="collapsed",
+            )
+
+            st.write("**Provide More Details**")
+            intervention_details = st.text_area(
+                "More Details", label_visibility="collapsed"
+            )
+            if st.button("Save and Continue"):
+
+                details = {
+                    "intervention_id": "",
+                    "recorded_date": date.strftime("%Y-%m-%d"),
+                    "pharmaceutical_care": pharma_care_type,
+                    "pharmaceutical_care_details": pharma_care_details,
+                    "medications": medications,
+                    "company": company,
+                    "intervention": intervention,
+                    "intervention_details": intervention_details if intervention != None else "None",
+                    "pharmacist": st.session_state["username"],
+                }
+                if validate_intervention(details):
+                    st.session_state["intv_key"] = create_intervention(
+                        details, st.session_state["username"]
+                    )
+                    st.session_state["add_patient"] = True
+                    switch_page("my patients")
+            else:
+                st.stop()
+    else:
+        st.error("Complete Your Profile First")
+        if st.button("Complete My Profile"):
+            switch_page("my profile")
 
 def reset_button():
     st.session_state["p"] = False
@@ -138,6 +144,7 @@ def view_intervention():
 
     st.info("Select the Patient/Intervention to Edit (Headings are Searchable)")
     
+    error_placeholder = st.empty()
     placeholder = st.empty()
     top_page = st.empty()
     form_holder = st.empty()
@@ -150,7 +157,7 @@ def view_intervention():
 
             gd = GridOptionsBuilder.from_dataframe(df)
             gd.configure_pagination(
-                enabled=True, paginationAutoPageSize=False, paginationPageSize=5
+                enabled=True, paginationAutoPageSize=False, paginationPageSize=7
             )
             gd.configure_default_column(editable=False, groupable=True)
             gd.configure_selection(selection_mode="single", use_checkbox=False)
@@ -171,9 +178,6 @@ def view_intervention():
 
     with top_page.empty():
         check1, check2 = st.columns([1, 1])
-
-        
-
 
     if intv_data:
         filtered_intv = [
@@ -284,7 +288,7 @@ def view_intervention():
                 st.write("**Provide More Details**")
                 intervention_details = st.text_area(
                     "More Details",
-                    value=filtered_intv["intervention_details"],
+                    value=filtered_intv["intervention_details"] if "intervention_details" in filtered_intv else "",
                     label_visibility="collapsed",
                 )
 
@@ -300,8 +304,11 @@ def view_intervention():
                         "details": intervention_details if intervention != None else "None",
                         "pharmacist": st.session_state["username"],
                     }
-                    update_intervention(details, filtered_intv["key"])
-                    st.experimental_rerun()
+                    if validate_intervention(details, error_placeholder):
+                        update_intervention(details, filtered_intv["key"])
+                        st.experimental_rerun()
+                    else:
+                        st.stop()
 
 
 

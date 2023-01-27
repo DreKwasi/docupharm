@@ -6,11 +6,13 @@ from .db import create_patient, get_all_patients, update_patient
 from streamlit_toggle import st_toggle_switch
 from st_aggrid import AgGrid, GridUpdateMode
 from st_aggrid.grid_options_builder import GridOptionsBuilder
+from .validators import validate_patient
 
 
 def view_details(intv_key=None):
     st.info("Select Patient to Edit (Headings Are Searchable)")
-    msg = st.empty()
+    error_placeholder = st.empty()
+
     placeholder = st.empty()
     form_holder = st.empty()
     patient_data = {}
@@ -130,12 +132,13 @@ def view_details(intv_key=None):
             filtered_details = {
                 key: value for key, value in details.items() if value != ""
             }
-            with st.spinner("Updating User Details"):
-                update_patient(
-                    filtered_details,
-                    key=df["key"][df["Patient ID"] == patient_data["Patient ID"]],
-                    intv_key=intv_key,
-                )
+            with st.spinner("Updating User Details ..."):
+                if validate_patient(details, error_placeholder, no_details=True):
+                    update_patient(
+                        filtered_details,
+                        key=df["key"][df["Patient ID"] == patient_data["Patient ID"]],
+                        intv_key=intv_key,
+                    )
 
             st.experimental_rerun()
 
@@ -143,9 +146,10 @@ def view_details(intv_key=None):
 def record_details():
 
     # set_png_as_page_bg("assets/images/Black Man _ Woman Feeling Sick.png")
+    error_placeholder = st.empty()
+
     update, add = st.columns([1, 1])
     placeholder = st.empty()
-    view_placeholder = st.empty()
 
     if "intv_key" not in st.session_state or st.session_state["intv_key"] == "":
         st.warning("Complete An Intervention First")
@@ -217,6 +221,11 @@ def record_details():
                     "pharmacist": st.session_state["username"],
                     "intervention_key": [st.session_state["intv_key"]],
                 }
-                create_patient(details)
+                if validate_patient(
+                    details, error_placeholder, no_details=st.session_state["disable"]
+                ):
+                    create_patient(details)
+                else:
+                    st.stop()
     elif update.checkbox("Update Existing Patient"):
         view_details(st.session_state["intv_key"])
