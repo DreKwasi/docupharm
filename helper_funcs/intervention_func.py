@@ -125,7 +125,7 @@ def record_intervention():
                         details, st.session_state["username"]
                     )
                     st.session_state["add_patient"] = True
-                    page_util.add_page("Home", "Add_My_Patients")
+                    page_util.add_page("Home", "Add_My_Patient")
                     
                     switch_page("add my patients")
             else:
@@ -415,7 +415,7 @@ def view_intervention():
         if "patient_key" not in filtered_intv:
             if add_patient_details:
                 st.session_state["intv_key"] = filtered_intv['key']
-                page_util.add_page("Home", "Add_My_Patients")
+                page_util.add_page("Home", "Add_My_Patient")
                 
                 switch_page("add my patients")
 

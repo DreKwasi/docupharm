@@ -38,7 +38,7 @@ name, authentication_status, username = authenticator.login("Sign In", "main")
 if authentication_status:
     page_util.delete_page("Home", "Register")
     page_util.delete_page("Home", "Add_My_Intervention")
-    page_util.delete_page("Home", "Add_My_Patients")
+    page_util.delete_page("Home", "Add_My_Patient")
 
     page_util.add_page("Home", "My_Profile")
     page_util.add_page("Home", "My_Interventions")

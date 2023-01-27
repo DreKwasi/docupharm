@@ -14,7 +14,7 @@ st.set_page_config(
 
 
 page_util.delete_page("Home", "Add_My_Intervention")
-page_util.delete_page("Home", "Add_My_Patients")
+page_util.delete_page("Home", "Add_My_Patient")
 
 
 load_css_file("styles/main.css")

@@ -18,13 +18,13 @@ st.set_page_config(
 styles.load_css_file("styles/main.css")
 
 page_util.delete_page("Home", "Add_My_Intervention")
-page_util.delete_page("Home", "Add_My_Patients")
+page_util.delete_page("Home", "Add_My_Patient")
 
 col1, col2, col3 = st.columns([1, 1, 1])
 
 if col1.button("Add Patient"):
-    page_util.add_page("Home", "Add_My_Patients")
-    switch_page("add my patients")
+    page_util.add_page("Home", "Add_My_Patient")
+    switch_page("add my patient")
 
 with col3:
     if st.button("🏡 Go Home"):
