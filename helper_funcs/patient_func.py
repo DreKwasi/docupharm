@@ -139,7 +139,7 @@ def view_details(intv_key=None):
                         key=df["key"][df["Patient ID"] == patient_data["Patient ID"]],
                         intv_key=intv_key,
                     )
-                    switch_page("my intervention")
+                    switch_page("my interventions")
                     
 
             st.experimental_rerun()
@@ -156,7 +156,7 @@ def record_details():
     if "intv_key" not in st.session_state or st.session_state["intv_key"] == "":
         st.warning("Complete An Intervention First")
         if st.button("Goto Intervention"):
-            switch_page("my intervention")
+            switch_page("my interventions")
 
     elif add.checkbox("Add New Patient"):
         with placeholder.container():
@@ -227,7 +227,7 @@ def record_details():
                     details, error_placeholder, no_details=st.session_state["disable"]
                 ):
                     create_patient(details)
-                    switch_page("my intervention")
+                    switch_page("my interventions")
                 else:
                     st.stop()
     elif update.checkbox("Update Existing Patient"):

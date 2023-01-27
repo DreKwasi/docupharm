@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 from streamlit_extras.switch_page_button import switch_page
-from helper_funcs import intervention_func, db
+from helper_funcs import intervention_func, db, page_util
 from helper_funcs.styles import load_css_file
 import warnings
 warnings.filterwarnings("ignore")
@@ -13,6 +13,9 @@ st.set_page_config(
     layout="centered",
 )
 
+page_util.delete_page("Home", "Add_My_Intervention")
+page_util.delete_page("Home", "Add_My_Patients")
+
 
 # st.session_state["refresh"] = "not refresh"
 # st.experimental_set_query_params(curr_page="my intervention")
@@ -21,16 +24,13 @@ load_css_file("styles/main.css")
 
 
 col1, col2, col3 = st.columns([1, 1, 1])
-with col2:
+if col1.button("Add Intervention"):
+    page_util.add_page("Home", "Add_My_Intervention")
+    switch_page("add my intervention")
+    
+with col3:
     if st.button("🏡 Go Home"):
         switch_page("home")
-
-selected = option_menu(
-    menu_title="",
-    options=["Add Intervention", "All Interventions"],
-    orientation="horizontal",
-    default_index=0,
-)
 
 
 if "authentication_status" in st.session_state or "username" in st.session_state:
@@ -42,11 +42,7 @@ if "authentication_status" in st.session_state or "username" in st.session_state
         with st.sidebar.empty():
             st.session_state["authenticator"].logout("Logout", "main")
 
-        if selected == "Add Intervention":
-            intervention_func.record_intervention()
-
-        elif selected == "All Interventions":
-            intervention_func.view_intervention()
+        intervention_func.view_intervention()
 
     elif st.session_state["authentication_status"] == False:
         switch_page("home")

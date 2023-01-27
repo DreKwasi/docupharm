@@ -17,7 +17,7 @@ from .db import (
 from st_aggrid import AgGrid, GridUpdateMode
 from st_aggrid.grid_options_builder import GridOptionsBuilder
 from .validators import validate_intervention
-
+from . import page_util
 # def get_base64_of_bin_file(bin_file):
 #     with open(bin_file, "rb") as f:
 #         data = f.read()
@@ -125,7 +125,9 @@ def record_intervention():
                         details, st.session_state["username"]
                     )
                     st.session_state["add_patient"] = True
-                    switch_page("my patients")
+                    page_util.add_page("Home", "Add_My_Patients")
+                    
+                    switch_page("add my patients")
             else:
                 st.stop()
     else:
@@ -413,7 +415,9 @@ def view_intervention():
         if "patient_key" not in filtered_intv:
             if add_patient_details:
                 st.session_state["intv_key"] = filtered_intv['key']
-                switch_page("my patients")
+                page_util.add_page("Home", "Add_My_Patients")
+                
+                switch_page("add my patients")
 
 
             

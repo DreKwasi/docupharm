@@ -1,8 +1,8 @@
 import streamlit as st
-from streamlit_option_menu import option_menu
 from streamlit_extras.switch_page_button import switch_page
-from helper_funcs import patient_func, styles, db
+from helper_funcs import patient_func, styles, page_util
 import warnings
+
 warnings.filterwarnings("ignore")
 
 st.set_page_config(
@@ -12,6 +12,7 @@ st.set_page_config(
     layout="centered",
 )
 
+page_util.delete_page("Home", "Add_My_Intervention")
 
 # st.session_state['refresh'] = 0
 # st.experimental_set_query_params(curr_page="my patients")
@@ -19,19 +20,12 @@ st.set_page_config(
 styles.load_css_file("styles/main.css")
 
 col1, col2, col3 = st.columns([1, 1, 1])
-with col2:
-    if st.button("🏡 Go Home"):
-        switch_page("home")
 
+if col1.button("View All Patients"):
+    switch_page("my patients")
 
-selected = option_menu(
-    menu_title="",
-    options=[
-        "Add Patient Details",
-        "All Patient Details",
-    ],
-    orientation="horizontal",
-)
+if col3.button("🏡 Go Home"):
+    switch_page("home")
 
 
 if "authentication_status" in st.session_state or "username" in st.session_state:
@@ -43,12 +37,7 @@ if "authentication_status" in st.session_state or "username" in st.session_state
         with st.sidebar.empty():
             st.session_state["authenticator"].logout("Logout", "main")
 
-        if selected == "Add Patient Details":
-            patient_func.record_details()
-
-        elif selected == "All Patient Details":
-            patient_func.view_details()
-
+        patient_func.record_details()
 
     elif st.session_state["authentication_status"] == False:
         switch_page("home")

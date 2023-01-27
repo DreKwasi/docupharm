@@ -7,6 +7,7 @@ import streamlit.components.v1 as components
 from helper_funcs.styles import read_html
 from streamlit_extras.metric_cards import style_metric_cards
 from helper_funcs.db import get_dashboard_data
+from helper_funcs import page_util
 
 
 def show_dashboard():
@@ -22,7 +23,8 @@ def show_dashboard():
 
     with btncol1:
         if st.button("Add Intervention"):
-            switch_page("my intervention")
+            page_util.add_page("Home", "Add_My_Intervention")
+            switch_page("add my interventions")
 
     with btncol2:
         if st.button("Review My Day"):
