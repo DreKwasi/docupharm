@@ -48,8 +48,6 @@ if "authentication_status" in st.session_state or "username" in st.session_state
         elif selected == "All Patient Details":
             patient_func.view_details()
 
-        with st.sidebar.empty():
-            st.session_state["authenticator"].logout("Logout", "main")
 
     elif st.session_state["authentication_status"] == False:
         switch_page("home")
