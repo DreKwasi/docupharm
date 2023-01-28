@@ -97,12 +97,13 @@ def update_intervention(details, key):
 
 def create_patient(details):
     if "intervention_key" in details and details["intervention_key"] != "":
+        print()
         patients = deta.Base("patients")
 
         # insert into interventions as well
         intvs = deta.Base("interventions")
 
-        patient_intv = intvs.fetch({"key": details["intervention_key"]}).items[0]
+        patient_intv = intvs.fetch({"key": details["intervention_key"][0]}).items[0]
 
         num_patients = patients.fetch({"pharmacist": details["pharmacist"]}).count
         details["patient_id"] = f"{num_patients + 1}"
