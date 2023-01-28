@@ -226,7 +226,6 @@ def record_details():
                     details, no_details=st.session_state["disable"]
                 ):
                     create_patient(details)
-                    switch_page("my interventions")
                 else:
                     st.stop()
     elif update.checkbox("Update Existing Patient"):

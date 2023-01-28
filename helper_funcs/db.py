@@ -117,11 +117,11 @@ def create_patient(details):
         intvs.update(patient_intv, key=details["intervention_key"][0])
 
         st.session_state["intv_key"] = ""
-        switch_page("my intervention")
+        switch_page("my interventions")
     else:
         st.error("Kindly Add An Intervention for this Patient")
         if st.button("Add Intervention"):
-            switch_page("my intervention")
+            switch_page("my interventions")
 
 
 def update_patient(details, key, intv_key=None):
