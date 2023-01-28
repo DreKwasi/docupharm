@@ -27,7 +27,7 @@ def view_details(intv_key=None):
 
             gd = GridOptionsBuilder.from_dataframe(grid_df)
             gd.configure_pagination(
-                enabled=True, paginationAutoPageSize=False, paginationPageSize=5
+                enabled=True, paginationAutoPageSize=False, paginationPageSize=7
             )
             gd.configure_default_column(
                 editable=False, groupable=True, min_column_width=1
