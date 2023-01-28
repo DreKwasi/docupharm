@@ -12,7 +12,6 @@ st.set_page_config(
     layout="centered",
 )
 
-page_util.delete_page("Home", "Add_My_Intervention")
 
 # st.session_state['refresh'] = 0
 # st.experimental_set_query_params(curr_page="my patients")

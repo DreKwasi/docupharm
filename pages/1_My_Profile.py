@@ -19,8 +19,7 @@ if "intv_key" in st.session_state:
 # st.experimental_set_query_params(curr_page="my profile")
 load_css_file("styles/main.css")
 
-page_util.delete_page("Home", "Add_My_Intervention")
-page_util.delete_page("Home", "Add_My_Patient")
+
 
 
 if "authentication_status" in st.session_state or "username" in st.session_state:

@@ -12,8 +12,6 @@ st.set_page_config(
     layout="centered",
 )
 
-page_util.delete_page("Home", "Add_My_Intervention")
-page_util.delete_page("Home", "Add_My_Patient")
 
 
 # st.session_state["refresh"] = "not refresh"
@@ -24,7 +22,6 @@ load_css_file("styles/main.css")
 
 col1, col2 = st.columns([2, 1])
 if col1.button("Add Intervention"):
-    page_util.add_page("Home", "Add_My_Intervention")
     switch_page("add my intervention")
     
 if col2.button("🏡 Go Home"):
