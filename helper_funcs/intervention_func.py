@@ -124,10 +124,10 @@ def record_intervention():
                     st.session_state["intv_key"] = create_intervention(
                         details, st.session_state["username"]
                     )
-                    st.session_state["add_patient"] = True
+
                     page_util.add_page("Home", "Add_My_Patient")
                     
-                    switch_page("add my patients")
+                    switch_page("add my patient")
             else:
                 st.stop()
     else:

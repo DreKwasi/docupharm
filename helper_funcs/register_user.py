@@ -123,12 +123,12 @@ def register(credentials):
                 st.write(f"Category {row +1}")
                 st.selectbox(
                     f"Category {row}",
-                    options=["", "Hospital", "Community"],
+                    options=["Hospital", "Community"],
                     label_visibility="collapsed",
                     key=f"Category {row}",
                 )
 
-        register = st.form_submit_button("Register")
+        register = st.form_submit_button("Register", type="primary")
 
     if register:
         with st.spinner("Loading ..."):

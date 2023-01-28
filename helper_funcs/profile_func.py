@@ -212,7 +212,7 @@ def update_profile():
 
                 with col3:
                     st.write(f"Category {row +1}")
-                    cat = ["", "Hospital", "Community"]
+                    cat = ["Hospital", "Community"]
                     cat.remove(curr_profile["work_details"]["category"][row])
                     cat.insert(0, curr_profile["work_details"]["category"][row])
                     st.selectbox(
