@@ -114,7 +114,7 @@ def create_patient(details):
 
         del patient_intv["key"]
 
-        intvs.update(patient_intv, key=details["intervention_key"])
+        intvs.update(patient_intv, key=details["intervention_key"][0])
 
         st.session_state["intv_key"] = ""
         switch_page("my intervention")
