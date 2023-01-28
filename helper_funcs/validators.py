@@ -1,7 +1,7 @@
 import streamlit as st
 
 
-def validate_intervention(details, error_placeholder):
+def validate_intervention(details):
 
     if details["pharmaceutical_care"]:
         if details["pharmaceutical_care_details"]:
@@ -9,18 +9,18 @@ def validate_intervention(details, error_placeholder):
                 if details["intervention"]:
                     return True
                 else:
-                    error_placeholder.error("Intervention Can Not Be Empty")
+                    st.error("Intervention Can Not Be Empty")
             else:
-                error_placeholder.error("Select At Least 1 Medication")
+                st.error("Select At Least 1 Medication")
         else:
-            error_placeholder.error(
+            st.error(
                 "Give At least 1 Detail about the Pharmaceutical Care"
             )
     else:
-        error_placeholder.error("Select A Pharmaceutical Care")
+        st.error("Select A Pharmaceutical Care")
 
 
-def validate_patient(details, error_placeholder, no_details=False):
+def validate_patient(details, no_details=False):
 
     if not no_details:
         if details["patient_name"]:
@@ -28,17 +28,17 @@ def validate_patient(details, error_placeholder, no_details=False):
                 if details["gender"]:
                     return True
                 else:
-                    error_placeholder.error("Indicate Patient's Gender")
+                    st.error("Indicate Patient's Gender")
             else:
-                error_placeholder.error("Indicate Patient's Phone Number")
+                st.error("Indicate Patient's Phone Number")
         else:
-            error_placeholder.error("Patient Must Have A Name")
+            st.error("Patient Must Have A Name")
 
     if no_details:
         if details["gender"]:
             return True
         else:
-            error_placeholder.error("Indicate Patient's Gender")
+            st.error("Indicate Patient's Gender")
 
 
 # def validate_profile(details, error_placeholder):

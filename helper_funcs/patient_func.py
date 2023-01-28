@@ -223,7 +223,7 @@ def record_details():
                     "intervention_key": [st.session_state["intv_key"]],
                 }
                 if validate_patient(
-                    details, error_placeholder, no_details=st.session_state["disable"]
+                    details, no_details=st.session_state["disable"]
                 ):
                     create_patient(details)
                     switch_page("my interventions")
