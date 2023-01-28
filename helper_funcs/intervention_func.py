@@ -417,7 +417,7 @@ def view_intervention():
                 st.session_state["intv_key"] = filtered_intv['key']
                 page_util.add_page("Home", "Add_My_Patient")
                 
-                switch_page("add my patients")
+                switch_page("add my patient")
 
 
             
