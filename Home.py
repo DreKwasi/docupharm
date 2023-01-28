@@ -29,8 +29,6 @@ authenticator = st_auth.Authenticate(
 
 placeholder = st.empty()
 
-if "success_message" in st.session_state:
-    st.success(st.session_state["success_message"])
 
 
 name, authentication_status, username = authenticator.login("Sign In", "main")
@@ -54,9 +52,6 @@ if authentication_status:
         authentication_status,
         username,
     )
-
-    if "success_message" in st.session_state:
-        del st.session_state["success_message"]
 
     st.session_state["authenticator"] = authenticator
 

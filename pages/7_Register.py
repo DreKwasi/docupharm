@@ -29,14 +29,9 @@ authenticator = st_auth.Authenticate(
     cookie_expiry_days=cookie["expiry_days"],
 )
 
-if "success_message" in st.session_state:
-    del st.session_state["success_message"]
+placeholder = st.empty()
     
 st.header("""Welcome to DocuPharm 🎈🎈🎈 \n The #1 Impact Tracker for Pharmacists 👨‍⚕️👩‍⚕️""")
 if register_user.register(creds):
     
-    st.session_state[
-        "success_message"
-    ] = "User registered successfully. Please Log In"
-
-    switch_page("home")
+    placeholder.success("User registered successfully. Please Log In")
