@@ -100,7 +100,7 @@ def register(credentials):
             st.write("**Add Place(s) of Work**")
 
             for row in range(2):
-                st.markdown("######")
+                st.markdown("----------------------------------------------------------------")
 
                 col1, col2 = st.columns([1, 1])
 

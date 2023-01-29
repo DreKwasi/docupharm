@@ -186,7 +186,7 @@ def update_profile():
 
             work_num = len(curr_profile["work_details"]["company"])
             for row in range(work_num):
-                st.markdown("######")
+                st.markdown("----------------------------------------------------------------")
 
                 col1, col2 = st.columns([1, 1])
 
@@ -223,7 +223,7 @@ def update_profile():
                 )
 
             for row in range(work_num, (4 - work_num) + 1):
-                st.markdown("######")
+                st.markdown("----------------------------------------------------------------")
 
                 col1, col2 = st.columns([1, 1])
 
