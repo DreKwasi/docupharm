@@ -102,7 +102,7 @@ def register(credentials):
             for row in range(2):
                 st.markdown("######")
 
-                col1, col2, col3 = st.columns([1, 1, 1])
+                col1, col2 = st.columns([1, 1])
 
                 with col1:
                     st.write(f"Company {row +1}")
@@ -121,14 +121,14 @@ def register(credentials):
                         key=f"Location {row}",
                     )
 
-                with col3:
-                    st.write(f"Category {row +1}")
-                    selectbox(
-                        f"Category {row}",
-                        options=["Hospital", "Community"],
-                        label_visibility="collapsed",
-                        key=f"Category {row}",
-                    )
+
+                st.write(f"Category {row +1}")
+                selectbox(
+                    f"Category {row}",
+                    options=["Hospital", "Community"],
+                    label_visibility="collapsed",
+                    key=f"Category {row}",
+                )
 
             register = st.form_submit_button("Register", type="primary")
 
