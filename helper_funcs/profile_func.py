@@ -3,6 +3,7 @@ from .db import read_locations, update_user_profile, get_profile
 from streamlit_extras.switch_page_button import switch_page
 from streamlit_extras.no_default_selectbox import selectbox
 
+
 def validate(details):
     work_details = details["work_details"]
 
@@ -137,7 +138,7 @@ def update_profile():
     gender_list.remove(curr_profile["gender"])
     gender_list.insert(0, curr_profile["gender"])
 
-    st.subheader('Profile Details')
+    st.subheader("Profile Details")
     placeholder = st.empty()
 
     with placeholder.container():
@@ -214,7 +215,7 @@ def update_profile():
                 cat = ["Hospital", "Community"]
                 cat.remove(curr_profile["work_details"]["category"][row])
                 cat.insert(0, curr_profile["work_details"]["category"][row])
-                st.selectbox(
+                selectbox(
                     f"Category {row}",
                     options=cat,
                     label_visibility="collapsed",
@@ -224,7 +225,7 @@ def update_profile():
             for row in range(work_num, (4 - work_num) + 1):
                 st.markdown("######")
 
-                col1, col2, col3 = st.columns([1, 1, 1])
+                col1, col2 = st.columns([1, 1])
 
                 with col1:
                     st.write(f"Company {row +1}")
@@ -243,14 +244,13 @@ def update_profile():
                         key=f"Location {row}",
                     )
 
-                with col3:
-                    st.write(f"Category {row +1}")
-                    st.selectbox(
-                        f"Category {row}",
-                        options=["", "Hospital", "Community"],
-                        label_visibility="collapsed",
-                        key=f"Category {row}",
-                    )
+                st.write(f"Category {row +1}")
+                selectbox(
+                    f"Category {row}",
+                    options=["", "Hospital", "Community"],
+                    label_visibility="collapsed",
+                    key=f"Category {row}",
+                )
 
             submit = st.form_submit_button("Update Profile")
 
