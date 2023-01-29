@@ -98,14 +98,18 @@ def register(credentials):
 
             st.markdown("###")
             st.write("**Add Place(s) of Work**")
+            st.markdown("----------------------------------------------------------------")
+            
 
             for row in range(2):
+                st.markdown("##")
+                st.write(f"Work Details {row + 1}")
                 st.markdown("----------------------------------------------------------------")
 
                 col1, col2 = st.columns([1, 1])
 
                 with col1:
-                    st.write(f"Company {row +1}")
+                    st.write(f"Company")
                     st.text_input(
                         f"Company {row}",
                         label_visibility="collapsed",
@@ -113,7 +117,7 @@ def register(credentials):
                     )
 
                 with col2:
-                    st.write(f"Town {row +1}")
+                    st.write(f"Town")
                     selectbox(
                         f"Location {row}",
                         options=locs,
@@ -122,13 +126,14 @@ def register(credentials):
                     )
 
 
-                st.write(f"Category {row +1}")
+                st.write(f"Category")
                 selectbox(
                     f"Category {row}",
                     options=["Hospital", "Community"],
                     label_visibility="collapsed",
                     key=f"Category {row}",
                 )
+                
 
             register = st.form_submit_button("Register", type="primary")
 

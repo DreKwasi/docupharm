@@ -183,15 +183,18 @@ def update_profile():
 
             st.markdown("###")
             st.write("**Add Place(s) of Work**")
+            st.markdown("----------------------------------------------------------------")
+            
 
             work_num = len(curr_profile["work_details"]["company"])
             for row in range(work_num):
+                st.write(f"Work Details {row + 1}")
                 st.markdown("----------------------------------------------------------------")
 
                 col1, col2 = st.columns([1, 1])
 
                 with col1:
-                    st.write(f"Company {row +1}")
+                    st.write("Company")
                     st.text_input(
                         f"Company {row}",
                         label_visibility="collapsed",
@@ -200,7 +203,7 @@ def update_profile():
                     )
 
                 with col2:
-                    st.write(f"Town {row +1}")
+                    st.write("Location")
                     selectbox(
                         f"Location {row +1}",
                         no_selection_label=curr_profile["work_details"]["location"][
@@ -211,7 +214,7 @@ def update_profile():
                         key=f"Location {row}",
                     )
 
-                st.write(f"Category {row +1}")
+                st.write("Category")
                 cat = ["Hospital", "Community"]
                 cat.remove(curr_profile["work_details"]["category"][row])
                 cat.insert(0, curr_profile["work_details"]["category"][row])
@@ -223,12 +226,13 @@ def update_profile():
                 )
 
             for row in range(work_num, (4 - work_num) + 1):
+                st.write(f"Work Details {row + 1}")
                 st.markdown("----------------------------------------------------------------")
 
                 col1, col2 = st.columns([1, 1])
 
                 with col1:
-                    st.write(f"Company {row +1}")
+                    st.write("Company")
                     st.text_input(
                         f"Company {row}",
                         label_visibility="collapsed",
@@ -236,7 +240,7 @@ def update_profile():
                     )
 
                 with col2:
-                    st.write(f"Town {row +1}")
+                    st.write("Location")
                     selectbox(
                         f"Location {row}",
                         options=locs,
@@ -244,7 +248,7 @@ def update_profile():
                         key=f"Location {row}",
                     )
 
-                st.write(f"Category {row +1}")
+                st.write("Category")
                 selectbox(
                     f"Category {row}",
                     options=["", "Hospital", "Community"],
