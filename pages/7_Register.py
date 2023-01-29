@@ -32,6 +32,7 @@ authenticator = st_auth.Authenticate(
 placeholder = st.empty()
     
 st.header("""Welcome to DocuPharm 🎈🎈🎈 \n The #1 Impact Tracker for Pharmacists 👨‍⚕️👩‍⚕️""")
+if st.button("Sign In"):
+    switch_page("home")
 if register_user.register(creds):
-    
     placeholder.success("User registered successfully. Please Log In")

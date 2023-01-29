@@ -2,6 +2,8 @@ import streamlit as st
 import streamlit_authenticator as st_auth
 from helper_funcs import db, home_func, styles, page_util
 import warnings
+from streamlit_extras.switch_page_button import switch_page
+
 
 warnings.filterwarnings("ignore")
 
@@ -64,6 +66,8 @@ if authentication_status:
     home_func.show_dashboard()
 
 elif authentication_status == False:
+    if st.button("Create An Account"):
+        switch_page("Register")
     placeholder.header(
         """Welcome to DocuPharm 🎈🎈🎈 \n The #1 Impact Tracker for Pharmacists 👨‍⚕️👩‍⚕️"""
     )
@@ -79,6 +83,8 @@ elif authentication_status == False:
     st.error("Username/password is incorrect")
 
 elif authentication_status == None:
+    if st.button("Create An Account"):
+        switch_page("Register")
     placeholder.header(
         """Welcome to DocuPharm 🎈🎈🎈 \n The #1 Impact Tracker for Pharmacists 👨‍⚕️👩‍⚕️"""
     )
